@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gerencie informações da organização, preferências, segurança e notificações do sistema.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#330000">
+  <title>Configurações | Talentos em Equilíbrio</title>
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/pages/dashboard.css">
+  <link rel="stylesheet" href="../css/pages/configuracoes.css">
+  <script src="../js/utils/auth.js"></script>
+</head>
+<body class="dashboard-page settings-page">
+  <a class="skip-link" href="#main-content">Pular para o conteúdo principal</a>
+  <div class="dashboard-shell">
+    <aside class="sidebar" aria-label="Menu principal">
+      <a class="brand" href="dashboard.html" aria-label="Talentos em Equilíbrio, início">
+        <svg class="brand-symbol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5.5"></circle><path d="M12 13.5V23M8 19h8"></path></svg>
+        <span>Talentos em<br>Equilíbrio</span>
+      </a>
+      <nav class="side-nav" aria-label="Navegação principal">
+        <a class="nav-link" href="dashboard.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"></path></svg><span>Dashboard</span></a>
+        <a class="nav-link" href="colaboradores.html" data-admin-only><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5a6.5 6.5 0 0 1 13 0V20zM17 5a3.5 3.5 0 0 1 0 6.8M18 14a5.5 5.5 0 0 1 3.5 5.1V20h-3"></path></svg><span>Colaboradores</span></a>
+        <a class="nav-link" href="perfil.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M8.5 18H12a6 6 0 0 0 6-6V8.5M16.5 18H15a4 4 0 0 1-4-4v-1a4 4 0 0 1 4-4h.5"></path></svg><span>Jornada de carreira</span></a>
+        <a class="nav-link" href="relatorios.html" data-admin-only><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V5M4 20h17M8 16v-4M13 16V8M18 16V4"></path></svg><span>Relatórios</span></a>
+        <a class="nav-link is-active" href="configuracoes.html" aria-current="page" data-admin-only><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="m19.4 15 .1.1 1.4 1.1-1.5 2.6-1.7-.7a8 8 0 0 1-1.7 1l-.3 1.8h-3l-.3-1.8a8 8 0 0 1-1.7-1l-1.7.7-1.5-2.6L7 15a8 8 0 0 1 0-2l-1.5-1.1L7 9.3l1.7.7a8 8 0 0 1 1.7-1l.3-1.8h3l.3 1.8a8 8 0 0 1 1.7 1l1.7-.7 1.5 2.6L19.4 13a8 8 0 0 1 0 2z" transform="translate(-1 -1)"></path></svg><span>Configurações</span></a>
+      </nav>
+      <a class="sidebar-logout" href="../index.html" data-logout><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"></path></svg><span>Sair</span></a>
+    </aside>
+
+    <main class="dashboard-main settings-main" id="main-content" tabindex="-1">
+      <header class="topbar settings-topbar">
+        <div class="page-heading"><p class="eyebrow">Personalize seu espaço</p><h1>Configurações</h1><p class="page-description">Gerencie os dados e as preferências do sistema.</p></div>
+      </header>
+      <p class="auth-notice" data-auth-notice role="status" hidden></p>
+
+      <div class="settings-actions"><p class="settings-save-status" data-save-status role="status" aria-live="polite"></p><div><button class="button button-secondary" type="button" data-cancel>Cancelar</button><button class="button button-primary" type="button" data-save>Salvar alterações</button></div></div>
+
+      <section class="settings-card" aria-label="Preferências do sistema">
+        <nav class="settings-tabs" aria-label="Seções das configurações" role="tablist" aria-orientation="vertical">
+          <button class="settings-tab is-active" id="tab-geral" type="button" role="tab" aria-selected="true" aria-controls="panel-geral" data-settings-tab="geral"><span class="tab-icon" aria-hidden="true">ⓘ</span>Informações gerais</button>
+          <button class="settings-tab" id="tab-preferencias" type="button" role="tab" aria-selected="false" aria-controls="panel-preferencias" data-settings-tab="preferencias" tabindex="-1"><span class="tab-icon" aria-hidden="true">☷</span>Preferências</button>
+          <button class="settings-tab" id="tab-seguranca" type="button" role="tab" aria-selected="false" aria-controls="panel-seguranca" data-settings-tab="seguranca" tabindex="-1"><span class="tab-icon" aria-hidden="true">♢</span>Segurança</button>
+          <button class="settings-tab" id="tab-notificacoes" type="button" role="tab" aria-selected="false" aria-controls="panel-notificacoes" data-settings-tab="notificacoes" tabindex="-1"><span class="tab-icon" aria-hidden="true">♧</span>Notificações</button>
+          <button class="settings-tab" id="tab-conta" type="button" role="tab" aria-selected="false" aria-controls="panel-conta" data-settings-tab="conta" tabindex="-1"><span class="tab-icon" aria-hidden="true">♙</span>Conta</button>
+        </nav>
+
+        <div class="settings-content">
+          <section class="settings-panel" id="panel-geral" role="tabpanel" aria-labelledby="tab-geral" data-settings-panel="geral">
+            <div class="settings-panel-heading"><h2>Informações gerais</h2><p>Atualize os dados de identificação da organização.</p></div>
+            <div class="profile-upload"><span class="profile-photo" data-photo-preview aria-label="Foto de perfil">N</span><div class="profile-description"><strong data-profile-name>Nicole</strong><span data-profile-role>RH</span><span>Perfil RH</span></div><div class="photo-actions"><label class="button button-primary button-small" for="profile-photo-input">Enviar nova foto</label><input class="visually-hidden" id="profile-photo-input" type="file" accept="image/*" data-photo-input><button class="button button-secondary button-small" type="button" data-delete-photo>Remover</button></div></div>
+            <h3 class="settings-section-title">Dados da organização</h3>
+            <div class="settings-form-grid">
+              <label class="field-label">Nome da organização<input type="text" name="organization" data-settings-field="organization" placeholder="Ex.: Talentos em Equilíbrio"></label>
+              <label class="field-label">E-mail de contato<input type="email" name="contactEmail" data-settings-field="contactEmail" placeholder="contato@empresa.com.br"></label>
+              <label class="field-label">Telefone<input type="tel" name="phone" data-settings-field="phone" placeholder="(00) 00000-0000"></label>
+              <label class="field-label">País<select name="country" data-settings-field="country"><option value="Brasil">Brasil</option><option value="Portugal">Portugal</option><option value="Outro">Outro</option></select></label>
+              <label class="field-label">Cidade<input type="text" name="city" data-settings-field="city" placeholder="Sua cidade"></label>
+              <label class="field-label">Estado<input type="text" name="state" data-settings-field="state" placeholder="UF"></label>
+              <label class="field-label">CEP<input type="text" name="postalCode" data-settings-field="postalCode" placeholder="00000-000" inputmode="numeric"></label>
+              <label class="field-label">Endereço<input type="text" name="address" data-settings-field="address" placeholder="Rua, número e complemento"></label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="panel-preferencias" role="tabpanel" aria-labelledby="tab-preferencias" data-settings-panel="preferencias" hidden>
+            <div class="settings-panel-heading"><h2>Preferências</h2><p>Escolha como as informações serão exibidas no sistema.</p></div>
+            <div class="settings-form-grid preferences-grid">
+              <label class="field-label">Idioma<select data-settings-field="language"><option value="pt-BR">Português (Brasil)</option><option value="en">English</option><option value="es">Español</option></select></label>
+              <label class="field-label">Fuso horário<select data-settings-field="timezone"><option value="America/Sao_Paulo">Brasília (GMT−3)</option><option value="America/Manaus">Manaus (GMT−4)</option><option value="America/Rio_Branco">Rio Branco (GMT−5)</option></select></label>
+              <label class="field-label">Formato de data<select data-settings-field="dateFormat"><option value="DD/MM/AAAA">DD/MM/AAAA</option><option value="AAAA-MM-DD">AAAA-MM-DD</option></select></label>
+              <label class="field-label">Página inicial<select data-settings-field="homePage"><option value="dashboard.html">Dashboard</option><option value="colaboradores.html">Colaboradores</option><option value="relatorios.html">Relatórios</option></select></label>
+            </div>
+            <div class="settings-info-note"><span aria-hidden="true">i</span><p>As preferências são salvas neste navegador e aplicadas à sua experiência neste protótipo.</p></div>
+          </section>
+
+          <section class="settings-panel" id="panel-seguranca" role="tabpanel" aria-labelledby="tab-seguranca" data-settings-panel="seguranca" hidden>
+            <div class="settings-panel-heading"><h2>Segurança</h2><p>Consulte o estado da sua sessão atual.</p></div>
+            <div class="security-session"><span class="security-status-icon" aria-hidden="true">✓</span><div><strong>Sessão ativa neste navegador</strong><p>Seu acesso permanece ativo enquanto esta sessão do navegador estiver aberta.</p></div></div>
+            <div class="security-note"><strong>Sobre este protótipo</strong><p>O acesso é demonstrativo e fica armazenado apenas na sessão do navegador. Não há gerenciamento de senha ou autenticação em servidor nesta versão.</p></div>
+            <button class="button button-danger" type="button" data-logout>Encerrar sessão</button>
+          </section>
+
+          <section class="settings-panel" id="panel-notificacoes" role="tabpanel" aria-labelledby="tab-notificacoes" data-settings-panel="notificacoes" hidden>
+            <div class="settings-panel-heading"><h2>Notificações</h2><p>Defina quais avisos você deseja ver neste dispositivo.</p></div>
+            <div class="toggle-list">
+              <label class="toggle-row"><span><strong>Avisos do sistema</strong><small>Atualizações e informações importantes.</small></span><input type="checkbox" data-settings-field="notifySystem"><i aria-hidden="true"></i></label>
+              <label class="toggle-row"><span><strong>Relatórios</strong><small>Novos dados e resumos de indicadores.</small></span><input type="checkbox" data-settings-field="notifyReports"><i aria-hidden="true"></i></label>
+              <label class="toggle-row"><span><strong>Atividade de colaboradores</strong><small>Alterações relevantes nos registros da equipe.</small></span><input type="checkbox" data-settings-field="notifyCollaborators"><i aria-hidden="true"></i></label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="panel-conta" role="tabpanel" aria-labelledby="tab-conta" data-settings-panel="conta" hidden>
+            <div class="settings-panel-heading"><h2>Conta</h2><p>Dados do usuário conectado no momento.</p></div>
+            <div class="account-details">
+              <div><span>Nome</span><strong data-account-name>Nicole</strong></div>
+              <div><span>E-mail</span><strong data-account-email>nicole@talentos.com</strong></div>
+              <div><span>Tipo de acesso</span><strong data-account-role>RH</strong></div>
+            </div>
+            <p class="account-hint">Os dados de acesso são definidos para demonstração e não podem ser alterados nesta tela.</p>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="../js/utils/storage.js"></script>
+  <script src="../js/pages/configuracoes.js"></script>
+</body>
+</html>

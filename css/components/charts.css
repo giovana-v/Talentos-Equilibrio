@@ -1,0 +1,7 @@
+/* Figuras dentro de grids podem encolher sem criar rolagem horizontal. */
+.career-chart,
+.horizontal-chart,
+.vertical-chart,
+.funnel-chart {
+  min-width: 0;
+}

@@ -1,0 +1,11 @@
+/* Superfície compartilhada para cartões, painéis e tabelas. */
+.metric-card,
+.panel,
+.collaborators-panel,
+.report-card,
+.settings-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--bg-white);
+  box-shadow: var(--shadow-card);
+}

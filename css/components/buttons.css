@@ -1,0 +1,21 @@
+/* Botão compartilhado das ações da tela de configurações. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font: 600 0.9rem var(--font-family);
+  transition: background-color 0.18s, border-color 0.18s, transform 0.18s;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

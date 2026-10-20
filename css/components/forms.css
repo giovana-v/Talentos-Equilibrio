@@ -1,0 +1,24 @@
+/* Aparência comum dos controles de dados no site. */
+.filter-control select,
+.collaborator-dialog input,
+.collaborator-dialog select,
+.reports-filters select,
+.field-label input,
+.field-label select {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  outline: 0;
+  background: var(--bg-white);
+  color: var(--text-primary);
+  font: inherit;
+}
+
+.filter-control select:focus,
+.collaborator-dialog input:focus,
+.collaborator-dialog select:focus,
+.reports-filters select:focus,
+.field-label input:focus,
+.field-label select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-accent);
+}

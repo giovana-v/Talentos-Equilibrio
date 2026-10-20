@@ -1,0 +1,45 @@
+:root {
+  /* Cores Principais (Marca) */
+  --color-primary-dark: #330000;   /* Vermelho-escuro profundo / Vinho */
+  --color-primary: #62162f;        /* Bordô / Marsala / Magenta fechado */
+
+  /* Cores de Fundo e Leitura */
+  --bg-body: #FDFBF7;              /* Off-White / Creme (Fundo geral da tela) */
+  --bg-surface: #F4F4F6;           /* Cinza Claro Suave (Fundos de cards, inputs) */
+  --bg-white: #FFFFFF;             /* Branco puro (caso precise de contraste em formulários) */
+
+  /* Cores de Destaque (Botões, Links, CTA) */
+  --color-cta: #D4AF37;            /* Ouro Velho */
+  --color-cta-hover: #C5A02E;      /* Ouro Velho um pouco mais escuro para hover */
+  --color-accent: #E2A9B2;         /* Rosa Seco (para detalhes, bordas, etc) */
+
+  /* Cores de Texto */
+  --text-primary: #1A1A1A;         /* Cinza Grafite (Textos principais) */
+  --text-secondary: #6B7280;       /* Cinza Médio (Textos secundários, placeholders) */
+  --text-on-dark: #FDFBF7;         /* Texto claro para fundos escuros (Vinho/Bordô) */
+
+  /* Cores de Feedback (Mantidas padrões para UX) */
+  --danger-color: #B42318;         /* Contraste AA em fundos claros */
+
+  /* Fontes */
+  --font-family: 'Inter', sans-serif;
+
+  /* Espaçamentos */
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-page: clamp(16px, 3vw, 38px);
+
+  /* Bordas */
+  --border-radius: 12px;
+  --radius-control: 9px;
+  --border-color: #E5E7EB;
+
+  /* Layout e elevação */
+  --sidebar-width: 276px;
+  --sidebar-width-compact: 76px;
+  --shadow-card: 0 4px 16px rgba(51, 0, 0, 0.04);
+  --shadow-popover: 0 12px 35px rgba(51, 0, 0, 0.15);
+  --focus-ring: 0 0 0 3px rgba(98, 22, 47, 0.08);
+}

@@ -1,0 +1,6 @@
+/* Contêiner responsivo mantém tabelas largas utilizáveis em telas estreitas. */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}

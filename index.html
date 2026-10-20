@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Acesse o Talentos em Equilíbrio, uma plataforma demonstrativa de acompanhamento de carreira e equidade no trabalho.">
+  <title>Login | Talentos em Equilíbrio</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/pages/login.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Pular para o formulário de acesso</a>
+  <main class="login-container" id="main-content" tabindex="-1">
+
+    <!-- Coluna da marca e ilustração -->
+    <section class="login-branding" aria-label="Apresentação do Talentos em Equilíbrio">
+
+      <!-- Conteúdo da marca -->
+      <div class="login-card">
+
+        <!-- Ícone, título e subtítulo -->
+        <header class="branding-header">
+
+          <!-- Símbolo e nome do sistema -->
+          <div class="logo-titulo">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="9" r="6"></circle>
+              <path d="M12 15v8"></path>
+              <path d="M8 19h8"></path>
+            </svg>
+
+            <h1>Talentos em<br>Equilíbrio</h1>
+          </div>
+
+          <p>Dados que revelam oportunidades.<br>Decisões que transformam.</p>
+
+        </header>
+
+        <div class="illustration-wrapper">
+          <img src="./assets/images/woman-logins.svg" alt="Ilustração de uma mulher trabalhando em um notebook ao lado de um celular com símbolo da marca">
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Formulário de acesso -->
+    <section class="login-form-area" aria-labelledby="login-title">
+      <div class="login-box">
+        <h2 id="login-title">Acesse o sistema</h2>
+        <p>Entre com seu usuário e senha para continuar.</p>
+
+        <form id="login-form">
+          <div class="input-group">
+            <div class="input-wrapper">
+              <!-- Ícone de Usuário -->
+              <label class="visually-hidden" for="email">E-mail</label>
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="username" required>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <div class="input-wrapper">
+              <!-- Ícone de Cadeado -->
+              <label class="visually-hidden" for="password">Senha</label>
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <input type="password" id="password" name="password" placeholder="Senha" autocomplete="current-password" required>
+            </div>
+          </div>
+
+          <div class="remember-forgot">
+            <label>
+              <input type="checkbox" id="remember"> Lembrar de mim
+            </label>
+          </div>
+
+          <p class="login-feedback" id="login-feedback" role="alert" hidden></p>
+
+          <button type="submit" class="btn-primary">Entrar</button>
+
+          <button type="button" class="forgot-link-center" id="forgot-password">Esqueceu sua senha?</button>
+
+          <details class="demo-access">
+            <summary>Acessos de demonstração</summary>
+            <div>
+              <p><strong>RH:</strong> nicole@talentos.com / Admin@123</p>
+              <p><strong>Colaborador:</strong> adriel@talentos.com / Usuario@123</p>
+            </div>
+          </details>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JS -->
+  <script src="js/utils/storage.js"></script>
+  <script src="js/utils/auth.js"></script>
+  <script src="js/pages/login.js"></script>
+</body>
+</html>

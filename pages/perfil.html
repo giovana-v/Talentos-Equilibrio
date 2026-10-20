@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Visualize o perfil e acompanhe o histórico e as etapas da jornada de carreira.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#330000">
+  <title>Jornada de carreira | Talentos em Equilíbrio</title>
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/pages/dashboard.css">
+  <link rel="stylesheet" href="../css/pages/perfil.css">
+  <script src="../js/utils/auth.js"></script>
+</head>
+<body class="dashboard-page">
+  <a class="skip-link" href="#main-content">Pular para o conteúdo principal</a>
+  <div class="dashboard-shell">
+    <aside class="sidebar" aria-label="Menu principal">
+      <a class="brand" href="dashboard.html" aria-label="Talentos em Equilíbrio, início">
+        <svg class="brand-symbol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="5.5"></circle><path d="M12 13.5V23M8 19h8"></path>
+        </svg>
+        <span>Talentos em<br>Equilíbrio</span>
+      </a>
+      <nav class="side-nav" aria-label="Navegação principal">
+        <a class="nav-link" href="dashboard.html">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"></path></svg><span>Dashboard</span>
+        </a>
+        <a class="nav-link" href="colaboradores.html" data-admin-only>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5a6.5 6.5 0 0 1 13 0V20zM17 5a3.5 3.5 0 0 1 0 6.8M18 14a5.5 5.5 0 0 1 3.5 5.1V20h-3"></path></svg><span>Colaboradores</span>
+        </a>
+        <a class="nav-link is-active" href="perfil.html" aria-current="page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M8.5 18H12a6 6 0 0 0 6-6V8.5M16.5 18H15a4 4 0 0 1-4-4v-1a4 4 0 0 1 4-4h.5"></path></svg><span>Jornada de carreira</span>
+        </a>
+        <a class="nav-link" href="relatorios.html" data-admin-only>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V5M4 20h17M8 16v-4M13 16V8M18 16V4"></path></svg><span>Relatórios</span>
+        </a>
+        <a class="nav-link" href="configuracoes.html" data-admin-only>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="m19.4 15 .1.1 1.4 1.1-1.5 2.6-1.7-.7a8 8 0 0 1-1.7 1l-.3 1.8h-3l-.3-1.8a8 8 0 0 1-1.7-1l-1.7.7-1.5-2.6L7 15a8 8 0 0 1 0-2l-1.5-1.1L7 9.3l1.7.7a8 8 0 0 1 1.7-1l.3-1.8h3l.3 1.8a8 8 0 0 1 1.7 1l1.7-.7 1.5 2.6L19.4 13a8 8 0 0 1 0 2z" transform="translate(-1 -1)"></path></svg><span>Configurações</span>
+        </a>
+      </nav>
+      <a class="sidebar-logout" href="../index.html" data-logout>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"></path></svg><span>Sair</span>
+      </a>
+    </aside>
+
+    <main class="dashboard-main profile-main" id="main-content" tabindex="-1">
+      <a class="back-link" id="profile-back-link" href="colaboradores.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h12"></path></svg>
+        <span>Voltar</span>
+      </a>
+      <header class="profile-page-heading">
+        <p class="eyebrow">Pessoas e desenvolvimento</p>
+        <h1 id="profile-page-title">Perfil da colaboradora</h1>
+      </header>
+      <p class="auth-notice" data-auth-notice role="status" hidden></p>
+
+      <section class="profile-layout" aria-label="Perfil e jornada de carreira">
+        <article class="profile-card panel">
+          <div class="profile-identity">
+            <div class="profile-avatar" id="profile-avatar" aria-hidden="true">BS</div>
+            <div class="profile-name-block">
+              <div class="profile-name-line">
+                <h2 id="profile-name">Carregando perfil</h2>
+                <span class="profile-gender-badge" id="profile-gender"></span>
+              </div>
+              <p class="profile-role-line" id="profile-role-line"></p>
+            </div>
+          </div>
+          <dl class="profile-details">
+            <div>
+              <dt><span class="visually-hidden">E-mail</span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></dt>
+              <dd id="profile-email"></dd>
+            </div>
+            <div>
+              <dt><span class="visually-hidden">Tempo de casa</span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg></dt>
+              <dd id="profile-tenure"></dd>
+            </div>
+            <div>
+              <dt><span class="visually-hidden">Setor</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01M10 21v-4h4v4"></path></svg></dt>
+              <dd id="profile-sector"></dd>
+            </div>
+          </dl>
+        </article>
+
+        <section class="history-card panel" aria-labelledby="history-heading">
+          <div class="panel-heading"><h2 id="history-heading">Histórico de cargos</h2></div>
+          <ol class="career-history" id="career-history"></ol>
+        </section>
+
+        <section class="career-journey-card panel" aria-labelledby="journey-heading">
+          <div class="journey-heading">
+            <h2 id="journey-heading">Jornada de carreira</h2>
+            <span class="journey-progress" id="journey-progress-label"></span>
+          </div>
+          <ol class="journey-stages" id="journey-stages"></ol>
+        </section>
+      </section>
+    </main>
+  </div>
+  <script src="../js/utils/storage.js"></script>
+  <script src="../js/pages/perfil.js"></script>
+</body>
+</html>
