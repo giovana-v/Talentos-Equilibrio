@@ -111,4 +111,79 @@
     document.querySelector('[data-account-role]').textContent = role;
   }
   loadSettings();
+
+  /* Benefícios da empresa: a lista é usada no perfil de cada colaborador */
+  const benefitList = document.getElementById('benefit-list');
+  const benefitForm = document.getElementById('benefit-form');
+  const benefitError = document.getElementById('benefit-error');
+  const benefitStatus = document.getElementById('benefit-status');
+  const benefitCancel = document.getElementById('benefit-cancel');
+  let editingBenefit = null;
+
+  function renderBenefits() {
+    const benefits = Dados.beneficios();
+    benefitList.replaceChildren(...(benefits.length
+      ? benefits.map((benefit) => Helpers.el('li', {},
+        Helpers.el('span', { class: 'benefit-icon' }, Helpers.icon(benefit.icone)),
+        Helpers.el('div', {}, Helpers.el('strong', { text: benefit.nome }), Helpers.el('span', { text: benefit.descricao })),
+        Helpers.el('div', { class: 'row-actions' },
+          Helpers.el('button', { class: 'button button-link', type: 'button', 'aria-label': `Editar o benefício ${benefit.nome}`, text: 'Editar', onClick: () => startBenefitEdit(benefit) }),
+          Helpers.el('button', { class: 'button button-link', type: 'button', 'aria-label': `Remover o benefício ${benefit.nome}`, text: 'Remover', onClick: () => removeBenefit(benefit) }))))
+      : [Helpers.el('li', { class: 'muted-text', text: 'Nenhum benefício cadastrado.' })]));
+  }
+
+  function resetBenefitForm() {
+    editingBenefit = null;
+    benefitForm.reset();
+    benefitError.hidden = true;
+    benefitCancel.hidden = true;
+    document.getElementById('benefit-form-title').textContent = 'Novo benefício';
+  }
+
+  function startBenefitEdit(benefit) {
+    editingBenefit = benefit.id;
+    benefitForm.elements.nome.value = benefit.nome;
+    benefitForm.elements.icone.value = benefit.icone;
+    benefitForm.elements.descricao.value = benefit.descricao;
+    benefitCancel.hidden = false;
+    benefitError.hidden = true;
+    document.getElementById('benefit-form-title').textContent = `Editar benefício: ${benefit.nome}`;
+    benefitForm.elements.nome.focus();
+  }
+
+  async function removeBenefit(benefit) {
+    const confirmed = await Helpers.confirmDialog({ title: 'Remover benefício', message: `Remover “${benefit.nome}” da lista da empresa? Ele deixa de aparecer nos perfis.`, confirmLabel: 'Remover', danger: true });
+    if (!confirmed) return;
+    const ok = Dados.salvarBeneficios(Dados.beneficios().filter((item) => item.id !== benefit.id));
+    renderBenefits();
+    if (editingBenefit === benefit.id) resetBenefitForm();
+    Helpers.announce(benefitStatus, ok ? 'Benefício removido.' : 'Não foi possível salvar neste navegador.', ok ? 'success' : 'error');
+  }
+
+  benefitForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const nome = benefitForm.elements.nome.value.trim();
+    if (!nome) {
+      benefitError.textContent = 'Informe o nome do benefício.';
+      benefitError.hidden = false;
+      return;
+    }
+    const data = { nome, icone: benefitForm.elements.icone.value, descricao: benefitForm.elements.descricao.value.trim() };
+    const current = Dados.beneficios();
+    const next = editingBenefit
+      ? current.map((item) => (item.id === editingBenefit ? { ...item, ...data } : item))
+      : [...current, { id: Helpers.uid('bn'), ...data }];
+    const ok = Dados.salvarBeneficios(next);
+    if (!ok) {
+      benefitError.textContent = 'Não foi possível salvar neste navegador.';
+      benefitError.hidden = false;
+      return;
+    }
+    const wasEditing = Boolean(editingBenefit);
+    resetBenefitForm();
+    renderBenefits();
+    Helpers.announce(benefitStatus, wasEditing ? 'Benefício atualizado.' : 'Benefício adicionado.', 'success');
+  });
+  benefitCancel.addEventListener('click', resetBenefitForm);
+  renderBenefits();
 })();

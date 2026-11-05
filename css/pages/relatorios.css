@@ -421,3 +421,27 @@
     min-height: 320px;
   }
 }
+
+/* Notas dos painéis e mapa de promoções */
+.report-note {
+  margin: -8px 0 14px;
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.report-wide {
+  margin-top: 18px;
+}
+
+.report-card .bars-chart {
+  gap: 10px;
+}
+
+.report-card .chart-table {
+  margin-top: 6px;
+}
+
+.funnel-levels li {
+  grid-template-columns: minmax(0, 1fr) 108px;
+}

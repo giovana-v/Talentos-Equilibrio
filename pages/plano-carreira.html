@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Defina trilhas e cargos do plano de carreira da empresa: faixas salariais, requisitos e próximos cargos.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#330000">
+  <title>Plano de carreira | Talentos em Equilíbrio</title>
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/pages/dashboard.css">
+  <link rel="stylesheet" href="../css/pages/perfil.css">
+  <link rel="stylesheet" href="../css/pages/plano-carreira.css">
+  <script src="../js/utils/auth.js"></script>
+</head>
+<body class="dashboard-page">
+  <a class="skip-link" href="#main-content">Pular para o conteúdo principal</a>
+  <div class="dashboard-shell">
+    <aside class="sidebar" aria-label="Menu principal" data-sidebar data-active="plano-carreira.html"></aside>
+
+    <main class="dashboard-main plan-main" id="main-content" tabindex="-1">
+      <header class="topbar">
+        <div class="page-heading">
+          <p class="eyebrow">Gestão do plano</p>
+          <h1>Plano de carreira</h1>
+          <p class="page-description">Monte as trilhas e os cargos da empresa. Funil, jornada e relatórios passam a usar este plano.</p>
+        </div>
+      </header>
+      <p class="auth-notice" data-auth-notice role="status" hidden></p>
+
+      <section class="panel plan-toolbar" aria-label="Ações do plano">
+        <div class="button-row">
+          <button class="button button-primary button-small" type="button" id="new-track">Nova trilha</button>
+          <button class="button button-secondary button-small" type="button" id="restore-default">Restaurar modelo padrão</button>
+          <button class="button button-secondary button-small" type="button" id="export-plan">Exportar JSON</button>
+          <label class="button button-secondary button-small" for="import-plan">Importar JSON</label>
+          <input class="visually-hidden" type="file" id="import-plan" accept="application/json,.json">
+        </div>
+        <p class="status-text" id="plan-status" role="status" aria-live="polite"></p>
+        <div class="form-error" id="plan-errors" role="alert" hidden></div>
+        <details class="help-box">
+          <summary>Como montar o plano</summary>
+          <p>Uma <strong>trilha</strong> agrupa os cargos de um setor (ou de todos). Cada <strong>cargo</strong> tem tipo (operacional ou liderança), faixa salarial, tempo mínimo no cargo, requisitos e os <strong>próximos cargos</strong> possíveis. Escolha mais de um próximo cargo para criar uma carreira ramificada (em Y). Use os botões de subir e descer para ordenar; arquivar esconde o cargo de novas promoções sem apagar o histórico. Não é permitido criar ciclos entre cargos.</p>
+        </details>
+      </section>
+
+      <section class="panel plan-section" aria-labelledby="tracks-title">
+        <div class="panel-heading"><div><h2 id="tracks-title">Trilhas</h2><p class="panel-description">Escolha “Ver cargos” para editar os cargos de uma trilha.</p></div></div>
+        <div class="table-scroll" id="tracks-table"></div>
+      </section>
+
+      <section class="panel plan-section" aria-labelledby="cargos-title">
+        <div class="panel-heading">
+          <div><h2 id="cargos-title">Cargos da trilha</h2><p class="panel-description" id="cargos-subtitle"></p></div>
+          <div class="filter-bar">
+            <label>Trilha exibida<select id="cargo-track-select"></select></label>
+            <button class="button button-primary button-small" type="button" id="new-cargo">Novo cargo</button>
+          </div>
+        </div>
+        <div class="table-scroll" id="cargos-table"></div>
+      </section>
+
+      <section class="panel plan-section" aria-labelledby="sim-title">
+        <div class="panel-heading">
+          <div>
+            <h2 id="sim-title">Simular carreira de um candidato externo</h2>
+            <p class="panel-description">Mostra “como seria a carreira aqui” a partir de um cargo de entrada, na visão somente leitura que o colaborador enxerga.</p>
+          </div>
+          <div class="filter-bar">
+            <label>Trilha<select id="sim-track"></select></label>
+            <label>Cargo de entrada<select id="sim-cargo"></select></label>
+          </div>
+        </div>
+        <div class="panel-body" id="simulation-content"></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="app-dialog" id="track-dialog" aria-labelledby="track-dialog-title">
+    <form id="track-form" novalidate>
+      <h2 id="track-dialog-title">Nova trilha</h2>
+      <div class="form-grid">
+        <label class="form-field is-wide">Nome da trilha<input name="nome" type="text" maxlength="80" required></label>
+        <label class="form-field">Setor<select name="setor"></select></label>
+        <label class="check-field"><input name="ativa" type="checkbox" checked> Trilha ativa</label>
+        <label class="form-field is-wide">Descrição<textarea name="descricao" rows="3" maxlength="300"></textarea></label>
+      </div>
+      <div class="form-error" id="track-error" role="alert" hidden></div>
+      <div class="form-actions">
+        <button class="button button-secondary" type="button" data-close-dialog>Cancelar</button>
+        <button class="button button-primary" type="submit">Salvar trilha</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="app-dialog" id="cargo-dialog" aria-labelledby="cargo-dialog-title">
+    <form id="cargo-form" novalidate>
+      <h2 id="cargo-dialog-title">Novo cargo</h2>
+      <div class="form-grid">
+        <label class="form-field is-wide">Nome do cargo<input name="nome" type="text" maxlength="80" required></label>
+        <label class="form-field">Trilha<select name="trilhaId"></select></label>
+        <label class="form-field">Tipo<select name="tipo"><option value="operacional">Operacional</option><option value="lideranca">Liderança</option></select></label>
+        <label class="form-field">Faixa salarial mínima (R$)<input name="faixaSalarialMin" type="number" min="0" step="50" required></label>
+        <label class="form-field">Faixa salarial máxima (R$)<input name="faixaSalarialMax" type="number" min="0" step="50" required></label>
+        <label class="form-field">Tempo mínimo no cargo (meses)<input name="tempoMinimoNoCargoMeses" type="number" min="0" step="1" required><small>Define quando a pessoa fica elegível para o próximo cargo.</small></label>
+        <label class="check-field"><input name="ativo" type="checkbox" checked> Cargo ativo</label>
+        <label class="form-field is-wide">Competências exigidas<textarea name="competencias" rows="3"></textarea><small>Uma por linha.</small></label>
+        <label class="form-field">Formação<input name="formacao" type="text" maxlength="160"></label>
+        <label class="form-field">Experiência<input name="experiencia" type="text" maxlength="160"></label>
+        <label class="form-field is-wide">Responsabilidades<textarea name="responsabilidades" rows="3"></textarea><small>Uma por linha.</small></label>
+        <label class="form-field is-wide">Benefícios do cargo<textarea name="beneficios" rows="2"></textarea><small>Um por linha.</small></label>
+        <fieldset class="form-field is-wide next-fieldset">
+          <legend>Próximos cargos possíveis</legend>
+          <ul class="check-list" id="next-cargos-list"></ul>
+          <small>Marque mais de um para criar uma carreira ramificada (em Y).</small>
+        </fieldset>
+      </div>
+      <div class="form-error" id="cargo-error" role="alert" hidden></div>
+      <div class="form-actions">
+        <button class="button button-secondary" type="button" data-close-dialog>Cancelar</button>
+        <button class="button button-primary" type="submit">Salvar cargo</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="app-dialog" id="migrate-dialog" aria-labelledby="migrate-dialog-title">
+    <form id="migrate-form" novalidate>
+      <h2 id="migrate-dialog-title">Migrar colaboradores antes de excluir</h2>
+      <p class="dialog-text" id="migrate-text"></p>
+      <label class="form-field">Migrar para o cargo<select name="destino" required></select></label>
+      <div class="form-error" id="migrate-error" role="alert" hidden></div>
+      <div class="form-actions">
+        <button class="button button-secondary" type="button" data-close-dialog>Cancelar</button>
+        <button class="button button-danger" type="submit">Migrar e excluir cargo</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="../js/utils/storage.js"></script>
+  <script src="../js/utils/helpers.js"></script>
+  <script src="../js/utils/plano.js"></script>
+  <script src="../js/utils/dados.js"></script>
+  <script src="../js/components/sidebar.js"></script>
+  <script src="../js/components/charts.js"></script>
+  <script src="../js/components/jornada.js"></script>
+  <script src="../js/pages/plano-carreira.js"></script>
+</body>
+</html>

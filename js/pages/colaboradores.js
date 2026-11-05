@@ -1,60 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const STORAGE_KEY = 'talentosColaboradores';
-  const initialCollaborators = [
-    { id: 'c-1', name: 'Ana Silva', gender: 'Feminino', sector: 'Marketing', role: 'Analista', tenure: 2 },
-    { id: 'c-2', name: 'Beatriz Oliveira', gender: 'Feminino', sector: 'Tecnologia', role: 'Desenvolvedora', tenure: 1 },
-    { id: 'c-3', name: 'Carlos Souza', gender: 'Masculino', sector: 'Vendas', role: 'Analista', tenure: 3 },
-    { id: 'c-4', name: 'Fernanda Lima', gender: 'Feminino', sector: 'Financeiro', role: 'Assistente', tenure: 4 },
-    { id: 'c-5', name: 'Gabriel Santos', gender: 'Masculino', sector: 'Tecnologia', role: 'Desenvolvedor', tenure: 2 },
-    { id: 'c-6', name: 'Juliana Costa', gender: 'Feminino', sector: 'RH', role: 'Coordenadora de RH', tenure: 5 },
-    { id: 'c-7', name: 'Rafael Martins', gender: 'Masculino', sector: 'Vendas', role: 'Executivo de contas', tenure: 3 },
-    { id: 'c-8', name: 'Mariana Alves', gender: 'Feminino', sector: 'Tecnologia', role: 'Analista de dados', tenure: 2 },
-    { id: 'c-9', name: 'Lucas Ferreira', gender: 'Masculino', sector: 'Financeiro', role: 'Analista financeiro', tenure: 4 },
-    { id: 'c-10', name: 'Patrícia Mendes', gender: 'Feminino', sector: 'Vendas', role: 'Supervisora de vendas', tenure: 6 },
-    { id: 'c-11', name: 'Thiago Rocha', gender: 'Masculino', sector: 'Marketing', role: 'Designer', tenure: 1 },
-    { id: 'c-12', name: 'Camila Ribeiro', gender: 'Feminino', sector: 'Operações', role: 'Analista de operações', tenure: 3 },
-    { id: 'c-13', name: 'Eduardo Nunes', gender: 'Masculino', sector: 'Tecnologia', role: 'Desenvolvedor', tenure: 5 },
-    { id: 'c-14', name: 'Larissa Gomes', gender: 'Feminino', sector: 'Financeiro', role: 'Especialista', tenure: 7 },
-    { id: 'c-15', name: 'Bruno Carvalho', gender: 'Masculino', sector: 'Vendas', role: 'Analista', tenure: 2 },
-    { id: 'c-16', name: 'Renata Dias', gender: 'Feminino', sector: 'Marketing', role: 'Gerente de marketing', tenure: 8 },
-    { id: 'c-17', name: 'Felipe Barros', gender: 'Masculino', sector: 'Operações', role: 'Coordenador', tenure: 6 },
-    { id: 'c-18', name: 'Isabela Freitas', gender: 'Feminino', sector: 'RH', role: 'Analista de RH', tenure: 2 },
-    { id: 'c-19', name: 'André Lima', gender: 'Masculino', sector: 'Financeiro', role: 'Assistente', tenure: 1 },
-    { id: 'c-adriel', name: 'Adriel Banner', gender: 'Masculino', sector: 'Vendas', role: 'Analista', tenure: 2 },
-    { id: 'rh-nicole', name: 'Nicole', gender: 'Feminino', sector: 'RH', role: 'Analista de RH', tenure: 4 }
-  ];
-
-  function addDemoEmployees(firstNames, gender, amount, startingId) {
-    const surnames = ['Almeida', 'Azevedo', 'Barbosa', 'Batista', 'Campos', 'Cardoso', 'Castro', 'Cavalcanti', 'Cunha', 'Farias', 'Gonçalves', 'Lopes', 'Machado', 'Monteiro', 'Moraes', 'Moreira', 'Nascimento', 'Pereira', 'Ramos', 'Rezende', 'Santana', 'Teixeira', 'Vieira', 'Xavier'];
-    const sectors = ['Vendas', 'Tecnologia', 'Marketing', 'Financeiro', 'RH', 'Operações'];
-    const roles = gender === 'Feminino'
-      ? ['Analista', 'Assistente', 'Especialista', 'Coordenadora', 'Consultora', 'Desenvolvedora', 'Executiva de contas']
-      : ['Analista', 'Assistente', 'Especialista', 'Coordenador', 'Consultor', 'Desenvolvedor', 'Executivo de contas'];
-    const existingNames = new Set(initialCollaborators.map((person) => person.name.toLocaleLowerCase('pt-BR')));
-    let added = 0;
-
-    for (const firstName of firstNames) {
-      for (const surname of surnames) {
-        if (added >= amount) return;
-        const name = `${firstName} ${surname}`;
-        if (existingNames.has(name.toLocaleLowerCase('pt-BR'))) continue;
-        existingNames.add(name.toLocaleLowerCase('pt-BR'));
-        initialCollaborators.push({
-          id: `c-${startingId + added}`,
-          name,
-          gender,
-          sector: sectors[(startingId + added) % sectors.length],
-          role: roles[(startingId + added) % roles.length],
-          tenure: (startingId + added) % 10
-        });
-        added += 1;
-      }
-    }
-  }
-
-  addDemoEmployees(['Aline', 'Amanda', 'Bianca', 'Bruna', 'Carolina', 'Cecília', 'Daniela', 'Elisa', 'Emília', 'Estela', 'Flávia', 'Helena', 'Isadora', 'Júlia', 'Letícia', 'Luana', 'Manuela', 'Natália', 'Paula', 'Raquel'], 'Feminino', 101, 1000);
-  addDemoEmployees(['Alexandre', 'Antônio', 'Caio', 'Danilo', 'Diego', 'Douglas', 'Enzo', 'Gustavo', 'Heitor', 'Igor', 'João', 'Leonardo', 'Marcelo', 'Matheus', 'Murilo', 'Otávio', 'Pedro', 'Rodrigo', 'Samuel', 'Vinícius'], 'Masculino', 134, 2000);
-
   const listElement = document.getElementById('collaborators-list');
   const countElement = document.getElementById('collaborators-count');
   const searchInput = document.getElementById('search-colaboradores');
@@ -64,31 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const dialog = document.getElementById('collaborator-dialog');
   const form = document.getElementById('collaborator-form');
   const feedback = document.getElementById('collaborator-feedback');
+  const sectorOptions = document.getElementById('sector-options');
 
-  const storedCollaborators = Storage.getItem(STORAGE_KEY);
-  let collaborators = Array.isArray(storedCollaborators) ? storedCollaborators : [];
-  let normalizedSectorNames = false;
-  collaborators.forEach((person) => {
-    if (person.sector === 'Recursos Humanos') {
-      person.sector = 'RH';
-      normalizedSectorNames = true;
-    }
-  });
-  const collaboratorIds = new Set(collaborators.map((person) => person.id));
-  const newSeedRecords = initialCollaborators.filter((person) => !collaboratorIds.has(person.id));
-  if (!storedCollaborators || newSeedRecords.length || normalizedSectorNames) {
-    collaborators = [...collaborators, ...newSeedRecords];
-    Storage.setItem(STORAGE_KEY, collaborators);
-  }
+  // Os dados (incluindo a migração do formato antigo) são mantidos por Dados.
+  let collaborators = Dados.colaboradores();
 
   function makeInitials(name) {
-    return name
-      .trim()
-      .split(/\s+/)
-      .slice(0, 2)
-      .map((part) => part[0])
-      .join('')
-      .toUpperCase();
+    return Helpers.initials(name);
   }
 
   function addCell(row, value, className = '') {
@@ -124,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addCell(row, person.sector);
     addCell(row, person.role);
-    addCell(row, `${person.tenure} ${person.tenure === 1 ? 'ano' : 'anos'}`);
+    addCell(row, Helpers.formatDuration(Dados.mesesDeCasa(person)));
 
     const actionCell = document.createElement('td');
     const actionLink = document.createElement('a');
@@ -151,6 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function refreshFilters() {
     updateFilterOptions(sectorFilter, collaborators.map((person) => person.sector), 'Todos os setores');
     updateFilterOptions(roleFilter, collaborators.map((person) => person.role), 'Todos os cargos');
+    sectorOptions.replaceChildren(...Dados.setores().map((sector) => new Option(sector, sector)));
+  }
+
+  function refreshPlanOptions() {
+    const select = form.elements.cargoId;
+    select.replaceChildren(new Option('Selecione', ''));
+    Plano.cargosOrdenados().filter((cargo) => cargo.ativo).forEach((cargo) => select.add(new Option(Plano.rotulo(cargo), cargo.id)));
   }
 
   function renderCollaborators() {
@@ -182,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function openDialog() {
     feedback.hidden = true;
     form.reset();
+    refreshPlanOptions();
     dialog.showModal();
     form.elements.name.focus();
   }
@@ -196,28 +130,33 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(form);
-    const person = {
-      id: globalThis.crypto?.randomUUID?.() || `c-${Date.now()}`,
+    const input = {
       name: String(formData.get('name')).trim(),
       gender: String(formData.get('gender')),
       sector: String(formData.get('sector')).trim(),
-      role: String(formData.get('role')).trim(),
-      tenure: Number(formData.get('tenure'))
+      cargoId: String(formData.get('cargoId')),
+      anosDeCasa: Number(formData.get('tenure')),
+      salario: formData.get('salary') === '' ? null : Number(formData.get('salary'))
     };
 
-    if (!person.name || !person.gender || !person.sector || !person.role || !Number.isFinite(person.tenure)) {
+    if (!input.name || !input.gender || !input.sector || !input.cargoId || !Number.isFinite(input.anosDeCasa)) {
       feedback.textContent = 'Preencha os campos para salvar o cadastro.';
       feedback.hidden = false;
       return;
     }
-
-    collaborators.push(person);
-    if (!Storage.setItem(STORAGE_KEY, collaborators)) {
-      collaborators.pop();
-      feedback.textContent = 'Não foi possível salvar neste navegador. Verifique o espaço disponível e tente novamente.';
+    if (input.salario !== null && (!Number.isFinite(input.salario) || input.salario < 0)) {
+      feedback.textContent = 'Informe um salário válido ou deixe o campo em branco.';
       feedback.hidden = false;
       return;
     }
+
+    const result = Dados.adicionarColaborador(input);
+    if (!result.ok) {
+      feedback.textContent = result.erros[0];
+      feedback.hidden = false;
+      return;
+    }
+    collaborators = Dados.colaboradores();
     searchInput.value = '';
     sectorFilter.value = '';
     roleFilter.value = '';

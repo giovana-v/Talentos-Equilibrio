@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Detalhes de um cargo do plano de carreira: requisitos, faixa salarial e trilha.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#330000">
+  <title>Cargo | Talentos em Equilíbrio</title>
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/pages/dashboard.css">
+  <link rel="stylesheet" href="../css/pages/perfil.css">
+  <link rel="stylesheet" href="../css/pages/cargo.css">
+  <script src="../js/utils/auth.js"></script>
+</head>
+<body class="dashboard-page">
+  <a class="skip-link" href="#main-content">Pular para o conteúdo principal</a>
+  <div class="dashboard-shell">
+    <aside class="sidebar" aria-label="Menu principal" data-sidebar data-active="plano-carreira.html"></aside>
+
+    <main class="dashboard-main cargo-main" id="main-content" tabindex="-1">
+      <a class="back-link" id="cargo-back-link" href="plano-carreira.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h12"></path></svg>
+        <span>Voltar</span>
+      </a>
+      <header class="profile-page-heading">
+        <p class="eyebrow" id="cargo-trilha">Plano de carreira</p>
+        <h1 id="cargo-title">Cargo</h1>
+      </header>
+      <p class="auth-notice" data-auth-notice role="status" hidden></p>
+
+      <section class="cargo-layout" id="cargo-content" aria-label="Detalhes do cargo" hidden>
+        <article class="panel cargo-summary" aria-labelledby="cargo-summary-title">
+          <div class="panel-heading"><h2 id="cargo-summary-title">Resumo</h2></div>
+          <dl class="info-list" id="cargo-summary"></dl>
+        </article>
+
+        <section class="panel" aria-labelledby="cargo-resp-title">
+          <div class="panel-heading"><h2 id="cargo-resp-title">Descrição e responsabilidades</h2></div>
+          <div id="cargo-responsibilities"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="cargo-req-title">
+          <div class="panel-heading"><h2 id="cargo-req-title">Requisitos</h2></div>
+          <div id="cargo-requirements"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="cargo-ben-title">
+          <div class="panel-heading"><h2 id="cargo-ben-title">Benefícios do cargo</h2></div>
+          <div id="cargo-benefits"></div>
+        </section>
+
+        <section class="panel cargo-path" aria-labelledby="cargo-path-title">
+          <div class="panel-heading"><h2 id="cargo-path-title">Trilha: de onde se vem e para onde se vai</h2></div>
+          <div class="path-columns">
+            <div><h3 class="section-subtitle">De quais cargos se vem</h3><div id="cargo-from"></div></div>
+            <div><h3 class="section-subtitle">Para quais cargos se vai</h3><div id="cargo-to"></div></div>
+          </div>
+        </section>
+
+        <section class="panel cargo-occupants" id="occupants-panel" data-admin-only aria-labelledby="cargo-occ-title">
+          <div class="panel-heading">
+            <div>
+              <h2 id="cargo-occ-title">Quem ocupa este cargo hoje</h2>
+              <p class="panel-description">Visível apenas para o RH.</p>
+            </div>
+          </div>
+          <div id="occupants-summary"></div>
+          <div class="table-scroll" id="occupants-table"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/utils/storage.js"></script>
+  <script src="../js/utils/helpers.js"></script>
+  <script src="../js/utils/plano.js"></script>
+  <script src="../js/utils/dados.js"></script>
+  <script src="../js/utils/analytics.js"></script>
+  <script src="../js/components/sidebar.js"></script>
+  <script src="../js/components/charts.js"></script>
+  <script src="../js/components/jornada.js"></script>
+  <script src="../js/pages/cargo.js"></script>
+</body>
+</html>

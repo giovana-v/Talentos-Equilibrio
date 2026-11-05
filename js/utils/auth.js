@@ -16,7 +16,7 @@ const Auth = (() => {
       role: 'user'
     }
   ];
-  const userPages = new Set(['dashboard.html', 'perfil.html']);
+  const userPages = new Set(['dashboard.html', 'perfil.html', 'cargo.html']);
 
   function getSession() {
     try {
@@ -63,6 +63,12 @@ const Auth = (() => {
     }
   }
 
+  // Usada por telas que restringem o conteúdo depois de carregar (ex.: cargo fora da trilha do colaborador).
+  function redirectWithNotice(page, message) {
+    sessionStorage.setItem(NOTICE_KEY, message);
+    window.location.replace(page);
+  }
+
   function protectCurrentPage() {
     const path = window.location.pathname;
     const page = path.split('/').pop() || 'index.html';
@@ -88,6 +94,8 @@ const Auth = (() => {
   function setupPage() {
     const session = getSession();
     if (!session) return;
+
+    if (typeof Sidebar !== 'undefined') Sidebar.render();
 
     document.querySelectorAll('[data-auth-name]').forEach((element) => {
       element.textContent = session.name;
@@ -160,7 +168,7 @@ const Auth = (() => {
     }
   }
 
-  return { login, logout, getSession, canAccess, protectCurrentPage, setupPage, updateDisplayName };
+  return { login, logout, getSession, canAccess, protectCurrentPage, setupPage, updateDisplayName, redirectWithNotice };
 })();
 
 Auth.protectCurrentPage();

@@ -736,3 +736,73 @@
     min-height: 112px;
   }
 }
+
+/* Indicadores calculados, mapa de promoções e uso do plano */
+.metric-change.is-good {
+  color: #28734c;
+}
+
+.panel-description + .chart-legend,
+.career-panel .panel-heading {
+  align-items: flex-start;
+}
+
+.overview-panel {
+  margin-top: 20px;
+}
+
+.overview-panel .panel-heading {
+  flex-wrap: wrap;
+}
+
+.usage-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 24px;
+  padding-top: 18px;
+}
+
+.bottleneck-list {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bottleneck-list li {
+  display: grid;
+  gap: 3px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bottleneck-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.bottleneck-list strong {
+  color: var(--color-primary-dark);
+  font-size: 0.88rem;
+}
+
+.bottleneck-list span {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.career-panel .panel-description {
+  margin-top: 4px;
+}
+
+.promotion-stat div strong[data-promotion-time] {
+  font-size: clamp(1rem, 1.2vw, 1.3rem);
+}
+
+@media (max-width: 920px) {
+  .usage-grid {
+    grid-template-columns: 1fr;
+  }
+}

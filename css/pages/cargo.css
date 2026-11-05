@@ -1,0 +1,84 @@
+/* Página de um cargo do plano de carreira */
+.cargo-main {
+  padding-top: 26px;
+}
+
+.cargo-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 18px;
+}
+
+.cargo-layout .panel {
+  min-width: 0;
+  padding: 22px;
+}
+
+.cargo-layout .panel-heading {
+  padding-bottom: 14px;
+}
+
+.cargo-layout .panel-heading h2 {
+  color: var(--color-primary-dark);
+  font-size: 1.05rem;
+}
+
+.cargo-layout .panel > div:not(.panel-heading),
+.cargo-layout .panel > dl {
+  margin-top: 14px;
+}
+
+.cargo-path,
+.cargo-occupants {
+  grid-column: 1 / -1;
+}
+
+.path-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.occupant-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.gender-split {
+  display: flex;
+  height: 14px;
+  margin: 14px 0 18px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--bg-surface);
+}
+
+.gender-split i {
+  display: block;
+  height: 100%;
+}
+
+.split-women { background: var(--color-primary); }
+.split-men { background: var(--color-accent); }
+.split-other { background: var(--text-secondary); }
+
+@media (max-width: 860px) {
+  .cargo-layout,
+  .path-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .occupant-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .cargo-layout .panel {
+    padding: 17px 14px;
+  }
+
+  .occupant-stats {
+    grid-template-columns: 1fr;
+  }
+}

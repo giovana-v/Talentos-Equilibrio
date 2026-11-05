@@ -1,0 +1,83 @@
+/* Editor do plano de carreira (trilhas e cargos) */
+.plan-main {
+  padding-top: 30px;
+}
+
+.plan-main .topbar {
+  margin-bottom: 20px;
+}
+
+.plan-toolbar {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 18px 22px;
+}
+
+.plan-toolbar .help-box {
+  margin-top: 2px;
+}
+
+.plan-section {
+  margin-bottom: 20px;
+}
+
+.plan-section .panel-heading {
+  flex-wrap: wrap;
+}
+
+.plan-section .panel-heading h2 {
+  font-size: 1.08rem;
+}
+
+.plan-table {
+  min-width: 760px;
+}
+
+.plan-table tbody tr.is-selected {
+  background: #fbf1f3;
+}
+
+.plan-table tbody tr.is-archived th,
+.plan-table tbody tr.is-archived td {
+  color: var(--text-secondary);
+}
+
+.plan-table .row-actions {
+  min-width: 250px;
+}
+
+.track-link {
+  padding: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.row-note {
+  display: block;
+  max-width: 340px;
+  margin-top: 3px;
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  font-weight: 400;
+}
+
+.plan-empty {
+  padding: 18px 0;
+}
+
+.next-fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.next-fieldset legend {
+  margin-bottom: 6px;
+  padding: 0;
+}
+
+.plan-section .filter-bar {
+  align-items: flex-end;
+}

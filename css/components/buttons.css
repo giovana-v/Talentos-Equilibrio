@@ -1,13 +1,15 @@
-/* Botão compartilhado das ações da tela de configurações. */
+/* Botão compartilhado e suas variações. */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   min-height: 42px;
   padding: 0 18px;
   border: 1px solid transparent;
   border-radius: var(--radius-control);
   font: 600 0.9rem var(--font-family);
+  text-align: center;
   transition: background-color 0.18s, border-color 0.18s, transform 0.18s;
 }
 
@@ -18,4 +20,80 @@
 .button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+.button-primary {
+  background: var(--color-primary);
+  color: var(--text-on-dark);
+}
+
+.button-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.button-secondary {
+  border-color: var(--color-primary);
+  background: var(--bg-white);
+  color: var(--color-primary);
+}
+
+.button-secondary:hover {
+  background: #fbf1f3;
+}
+
+.button-small {
+  min-height: 36px;
+  padding: 0 13px;
+  font-size: 0.82rem;
+}
+
+.button-danger {
+  border-color: #f1c9c9;
+  background: #fff8f8;
+  color: var(--danger-color);
+}
+
+.button-danger:hover {
+  background: #ffeded;
+}
+
+.button-link {
+  min-height: 32px;
+  padding: 0 8px;
+  border: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.button-link:hover {
+  color: var(--color-primary-dark);
+}
+
+.button-icon {
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-white);
+  color: var(--color-primary);
+  font-size: 0.95rem;
+}
+
+.button-icon:hover:not(:disabled) {
+  background: #fbf1f3;
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
 }

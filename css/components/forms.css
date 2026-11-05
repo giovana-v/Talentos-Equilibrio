@@ -4,7 +4,11 @@
 .collaborator-dialog select,
 .reports-filters select,
 .field-label input,
-.field-label select {
+.field-label select,
+.form-field input,
+.form-field select,
+.form-field textarea,
+.filter-bar select {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   outline: 0;
@@ -18,7 +22,196 @@
 .collaborator-dialog select:focus,
 .reports-filters select:focus,
 .field-label input:focus,
-.field-label select:focus {
+.field-label select:focus,
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus,
+.filter-bar select:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-accent);
+}
+
+/* Formulários novos (plano de carreira, promoções, contrato) */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+}
+
+.form-grid .is-wide {
+  grid-column: 1 / -1;
+}
+
+.form-field {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  color: var(--text-primary);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.form-field small {
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  font-weight: 400;
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  font-size: 0.88rem;
+}
+
+.form-field textarea {
+  width: 100%;
+  min-height: 84px;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  resize: vertical;
+}
+
+.check-field {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.check-field input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--color-primary);
+}
+
+.check-list {
+  display: grid;
+  gap: 8px;
+  max-height: 190px;
+  margin: 0;
+  padding: 12px;
+  overflow: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  list-style: none;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 6px;
+}
+
+.form-error:not([hidden]) {
+  padding: 10px 12px;
+  border: 1px solid #f1c9c9;
+  border-radius: 8px;
+  background: #fff8f8;
+  color: var(--danger-color);
+  font-size: 0.84rem;
+}
+
+.form-error ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.status-text {
+  min-height: 1.3em;
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+}
+
+.status-text.is-success {
+  color: #28734c;
+}
+
+.status-text.is-error {
+  color: var(--danger-color);
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 16px;
+}
+
+.filter-bar label {
+  display: grid;
+  gap: 5px;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.filter-bar select {
+  min-width: 180px;
+  min-height: 42px;
+  padding: 0 34px 0 12px;
+  color: var(--color-primary);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+/* Diálogos modais */
+.app-dialog {
+  width: min(100% - 32px, 640px);
+  max-height: min(92vh, 860px);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--bg-white);
+  color: var(--text-primary);
+  box-shadow: 0 24px 80px rgba(51, 0, 0, 0.2);
+}
+
+.app-dialog::backdrop {
+  background: rgba(26, 26, 26, 0.5);
+  backdrop-filter: blur(3px);
+}
+
+.app-dialog > form,
+.app-dialog > div {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+}
+
+.app-dialog h2 {
+  color: var(--color-primary-dark);
+  font-size: 1.3rem;
+}
+
+.app-dialog-small {
+  width: min(100% - 32px, 440px);
+}
+
+.dialog-text {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 620px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app-dialog > form,
+  .app-dialog > div {
+    padding: 20px 16px;
+  }
+
+  .filter-bar label,
+  .filter-bar select {
+    width: 100%;
+  }
 }

@@ -1,4 +1,4 @@
-/* Identificação e histórico profissional */
+/* Identificação, remuneração, organograma e jornada profissional */
 .profile-main {
   padding-top: 26px;
 }
@@ -38,9 +38,23 @@
   letter-spacing: -0.035em;
 }
 
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.profile-actions .status-text {
+  flex-basis: 100%;
+  margin: 0;
+}
+
 .profile-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.95fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
   gap: 18px;
 }
 
@@ -49,10 +63,28 @@
   padding: 22px;
 }
 
-.profile-card {
-  min-height: 280px;
+.profile-layout .panel-heading {
+  padding-bottom: 14px;
 }
 
+.profile-layout .panel-heading h2,
+.journey-heading h2 {
+  color: var(--color-primary-dark);
+  font-size: 1.05rem;
+}
+
+.projects-card,
+.career-journey-card {
+  grid-column: 1 / -1;
+}
+
+.profile-data-note {
+  margin-top: 5px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+/* Identificação */
 .profile-identity {
   display: flex;
   align-items: center;
@@ -141,20 +173,101 @@
   overflow-wrap: anywhere;
 }
 
-.history-card {
-  min-height: 280px;
+/* Remuneração */
+.pay-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0 12px;
 }
 
-.profile-layout .panel-heading {
-  padding-bottom: 14px;
+.pay-summary > div {
+  display: grid;
+  gap: 4px;
 }
 
-.profile-layout .panel-heading h2,
-.journey-heading h2 {
+.pay-label {
+  color: var(--text-secondary);
+  font-size: 0.77rem;
+}
+
+.pay-value {
   color: var(--color-primary-dark);
-  font-size: 1.05rem;
+  font-size: 1.5rem;
+  line-height: 1.1;
 }
 
+.pay-range {
+  color: var(--color-primary-dark);
+  font-size: 0.92rem;
+}
+
+.pay-position {
+  margin: 8px 0 16px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+/* Organograma em árvore (listas aninhadas) */
+.org-card .muted-text {
+  margin: 14px 0;
+}
+
+.org-tree,
+.org-tree ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.org-tree ul {
+  margin-left: 16px;
+  padding-left: 18px;
+  border-left: 2px solid var(--color-accent);
+}
+
+.org-tree li {
+  margin-top: 10px;
+}
+
+.org-person {
+  display: inline-grid;
+  gap: 2px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
+  background: var(--bg-white);
+  font-size: 0.84rem;
+}
+
+.org-person strong,
+.org-person a {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
+.org-person small {
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+}
+
+.org-tree .is-self > .org-person {
+  border-color: var(--color-primary);
+  background: #fbf1f3;
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.org-above > .org-person {
+  opacity: 0.8;
+}
+
+.org-more {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+/* Histórico de cargos */
 .career-history {
   display: grid;
   gap: 0;
@@ -208,12 +321,7 @@
   line-height: 1.45;
 }
 
-/* Linha do tempo de desenvolvimento */
-.career-journey-card {
-  grid-column: 1 / -1;
-  min-height: 178px;
-}
-
+/* Jornada baseada no plano de carreira (componente Jornada) */
 .journey-heading {
   display: flex;
   align-items: center;
@@ -230,77 +338,155 @@
   font-size: 0.8rem;
 }
 
-.journey-stages {
-  position: relative;
+#journey-content,
+#simulation-content {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 28px 0 0;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.track-name {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.track-name strong {
+  color: var(--color-primary-dark);
+}
+
+.journey-current,
+.next-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-white);
+}
+
+.journey-current {
+  border-color: var(--color-accent);
+  background: var(--bg-body);
+}
+
+.journey-current .eyebrow {
+  margin: 0;
+}
+
+.journey-current h3,
+.next-card h4 {
+  color: var(--color-primary-dark);
+  font-size: 1rem;
+}
+
+.journey-current h3 a,
+.next-card h4 a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 3px;
+}
+
+.eligibility {
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.eligibility.is-eligible {
+  color: #28734c;
+  font-weight: 600;
+}
+
+.journey-next {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 0;
   padding: 0;
   list-style: none;
-  --progress: 33.333%;
 }
 
-.journey-stages::before,
-.journey-stages::after {
-  position: absolute;
-  top: 10px;
-  left: 12.5%;
-  height: 3px;
-  content: '';
-}
-
-.journey-stages::before {
-  right: 12.5%;
-  background: var(--border-color);
-}
-
-.journey-stages::after {
-  width: var(--progress);
-  max-width: 75%;
-  background: var(--color-primary);
-}
-
-.journey-stages li {
-  position: relative;
-  z-index: 1;
+.requirements {
   display: grid;
-  justify-items: center;
-  gap: 6px;
-  text-align: center;
+  gap: 10px;
 }
 
-.journey-stages li::before {
-  width: 16px;
-  height: 16px;
-  border: 3px solid var(--bg-white);
-  border-radius: 50%;
-  background: var(--bg-surface);
-  box-shadow: 0 0 0 2px var(--border-color);
-  content: '';
+.requirements dt {
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.journey-stages li.is-complete::before,
-.journey-stages li.is-current::before {
-  background: var(--color-primary);
-  box-shadow: 0 0 0 2px var(--color-primary);
+.requirements dd {
+  margin-top: 3px;
+  font-size: 0.84rem;
+  line-height: 1.45;
 }
 
-.journey-stages strong {
-  margin-top: 5px;
+.track-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.track-steps li {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-white);
+}
+
+.track-steps a {
   color: var(--color-primary-dark);
   font-size: 0.88rem;
+  font-weight: 700;
 }
 
-.journey-stages span {
+.track-steps small {
   color: var(--text-secondary);
-  font-size: 0.8rem;
+  font-size: 0.74rem;
 }
+
+.track-steps li.is-complete {
+  border-color: var(--color-accent);
+  background: var(--bg-surface);
+}
+
+.track-steps li.is-current {
+  border-color: var(--color-primary);
+  background: #fbf1f3;
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.track-steps li.is-next {
+  border-style: dashed;
+  border-color: var(--color-primary);
+}
+
+.track-steps li.is-complete::before,
+.track-steps li.is-current::before,
+.track-steps li.is-next::before {
+  color: var(--color-primary);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.track-steps li.is-complete::before { content: 'Anterior'; }
+.track-steps li.is-current::before { content: 'Atual'; }
+.track-steps li.is-next::before { content: 'Próximo'; }
 
 @media (max-width: 1050px) {
-  .profile-layout {
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
-  }
-
   .profile-layout .panel {
     padding: 18px;
   }
@@ -314,15 +500,6 @@
 @media (max-width: 760px) {
   .profile-layout {
     grid-template-columns: 1fr;
-  }
-
-  .career-journey-card {
-    grid-column: auto;
-  }
-
-  .profile-card,
-  .history-card {
-    min-height: 0;
   }
 
   .profile-details {
@@ -368,26 +545,11 @@
     font-size: 0.82rem;
   }
 
-  .journey-stages {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px 8px;
-    margin-top: 20px;
+  .pay-summary {
+    grid-template-columns: 1fr;
   }
 
-  .journey-stages::before,
-  .journey-stages::after {
-    display: none;
-  }
-
-  .journey-stages li {
-    gap: 5px;
-  }
-
-  .journey-stages strong {
-    font-size: 0.8rem;
-  }
-
-  .journey-stages span {
-    font-size: 0.74rem;
+  .journey-next {
+    grid-template-columns: 1fr;
   }
 }

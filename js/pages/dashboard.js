@@ -3,24 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!session) return;
 
   if (session.role === 'user') initializeEmployeeDashboard(session);
-
-  if (session.role === 'admin') {
-    const collaborators = Storage.getItem('talentosColaboradores');
-    if (Array.isArray(collaborators) && collaborators.length) {
-      const women = collaborators.filter((person) => person.gender === 'Feminino').length;
-      const men = collaborators.filter((person) => person.gender === 'Masculino').length;
-      const other = collaborators.length - women - men;
-      const totalElement = document.querySelector('[data-dashboard-total]');
-      const genderSummary = document.querySelector('[data-dashboard-gender-counts]');
-      if (totalElement) totalElement.textContent = collaborators.length.toLocaleString('pt-BR');
-      if (genderSummary) {
-        const womenShare = collaborators.length ? (women / collaborators.length) * 100 : 0;
-        const parts = [`${women} ${women === 1 ? 'mulher' : 'mulheres'} (${womenShare.toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%)`, `${men} ${men === 1 ? 'homem' : 'homens'}`];
-        if (other) parts.push(`${other} ${other === 1 ? 'pessoa' : 'pessoas'} de outro gênero`);
-        genderSummary.textContent = parts.join(' · ');
-      }
-    }
-  }
+  if (session.role === 'admin') initializeAdminDashboard();
 
   const notifications = session.role === 'admin'
     ? [
@@ -32,127 +15,157 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'career-checkin', title: 'Acompanhe sua jornada', body: 'Revise seu perfil e converse com o RH sobre seus próximos objetivos de carreira.', date: 'Jornada de carreira', href: 'perfil.html' },
         { id: 'development-plan', title: 'Plano de desenvolvimento', body: 'Registre aprendizados e resultados para apoiar sua próxima conversa de desenvolvimento.', date: 'Dica de carreira', href: 'perfil.html' }
       ];
+  Navbar.init({ notificacoes: notifications, chaveLidas: `talentosNotificacoesLidas:${session.role}` });
+});
 
-  const readKey = `talentosNotificacoesLidas:${session.role}`;
-  const list = document.querySelector('[data-notification-list]');
-  const count = document.querySelector('[data-notification-count]');
-  const dot = document.querySelector('[data-notification-dot]');
-  const markReadButton = document.querySelector('[data-mark-notifications-read]');
-  const notificationToggle = document.querySelector('[data-notifications-toggle]');
-  const profileToggle = document.querySelector('[data-auth-user-menu]');
-  const notificationsPopover = document.getElementById('notifications-popover');
-  const profilePopover = document.getElementById('profile-popover');
+/* Dashboard do RH: tudo é calculado por Analytics a partir dos colaboradores, do plano e das promoções. */
+function initializeAdminDashboard() {
+  const { el, formatNumber, formatPercent, plural } = Helpers;
 
-  function readIds() {
-    try { return new Set(Storage.getItem(readKey) || []); }
-    catch { return new Set(); }
+  function setText(selector, text) {
+    const element = document.querySelector(selector);
+    if (element) element.textContent = text;
   }
 
-  let read = readIds();
+  function renderChange(selector, delta, { higherIsWorse }) {
+    const element = document.querySelector(selector);
+    if (!element) return;
+    element.className = 'metric-change';
+    if (delta === null) {
+      element.textContent = 'Sem dados do período anterior';
+      return;
+    }
+    if (Math.abs(delta) < 0.05) {
+      element.textContent = 'Sem variação vs. 12 meses anteriores';
+      return;
+    }
+    const increase = delta > 0;
+    const adverse = higherIsWorse ? increase : !increase;
+    element.classList.add(adverse ? (increase ? 'is-up' : 'is-down') : 'is-good');
+    element.replaceChildren(
+      el('span', { 'aria-hidden': 'true', text: increase ? '↑' : '↓' }),
+      el('span', { class: 'visually-hidden', text: increase ? ' Alta de ' : ' Queda de ' }),
+      ` ${formatNumber(Math.abs(delta), 1)} p.p. vs. 12 meses anteriores`
+    );
+  }
 
-  function updateNotificationState() {
-    const unreadCount = notifications.filter((item) => !read.has(item.id)).length;
-    count.textContent = `${unreadCount} ${unreadCount === 1 ? 'nova' : 'novas'}`;
-    dot.hidden = unreadCount === 0;
-    markReadButton.disabled = unreadCount === 0;
-    notificationToggle.setAttribute('aria-label', unreadCount ? `Notificações, ${unreadCount} não lidas` : 'Notificações, todas lidas');
-    list.replaceChildren();
-    notifications.forEach((item) => {
-      const row = document.createElement('li');
-      const link = document.createElement('a');
-      const heading = document.createElement('strong');
-      const body = document.createElement('span');
-      const date = document.createElement('small');
-      const isUnread = !read.has(item.id);
-      row.className = `notification-item${isUnread ? ' is-unread' : ''}`;
-      link.href = item.href;
-      link.dataset.notificationId = item.id;
-      heading.textContent = item.title;
-      body.textContent = item.body;
-      date.textContent = item.date;
-      link.append(heading, body, date);
-      row.append(link);
-      list.append(row);
+  function renderMetrics() {
+    const summary = Analytics.resumo();
+    const rates = Analytics.taxas('ultimos12');
+    setText('[data-metric="total"]', formatNumber(summary.total));
+    const parts = [`${plural(summary.mulheres, 'mulher', 'mulheres')} (${formatPercent(summary.pctMulheres || 0)})`, plural(summary.homens, 'homem', 'homens')];
+    if (summary.outros) parts.push(`${plural(summary.outros, 'pessoa', 'pessoas')} de outro gênero`);
+    setText('[data-metric-note="total"]', parts.join(' · '));
+
+    setText('[data-metric="lideranca"]', formatNumber(summary.lideresMulheres));
+    setText('[data-metric-note="lideranca"]', summary.lideres
+      ? `(${formatPercent(summary.pctMulheresNaLideranca)} do total de líderes)`
+      : 'Nenhum cargo de liderança ocupado');
+
+    const women = rates.atual.F;
+    setText('[data-metric="promocao"]', women.promocao === null ? '—' : formatPercent(women.promocao));
+    renderChange('[data-metric-note="promocao"]', rates.variacao.promocaoF, { higherIsWorse: false });
+    setText('[data-metric="desistencia"]', women.desistencia === null ? '—' : formatPercent(women.desistencia));
+    renderChange('[data-metric-note="desistencia"]', rates.variacao.desistenciaF, { higherIsWorse: true });
+  }
+
+  function renderFunnel() {
+    const target = document.getElementById('career-funnel');
+    target.replaceChildren(Charts.funilCarreira({ id: 'career-funnel-chart', titulo: 'Funil de carreira — mulheres e homens por cargo', ...Analytics.funil() }));
+  }
+
+  function renderPromotionTime() {
+    const time = Analytics.tempoAtePromocao();
+    ['F', 'M'].forEach((key) => {
+      const group = time[key];
+      setText(`[data-promotion-time="${key}"]`, group.pequena ? 'amostra pequena' : Helpers.formatYears(group.mediaMeses));
     });
   }
 
-  function setPopover(openPopover, closedPopover, toggle) {
-    const opening = openPopover.hidden;
-    openPopover.hidden = !opening;
-    closedPopover.hidden = true;
-    toggle.setAttribute('aria-expanded', String(opening));
-    const closedToggle = toggle === notificationToggle ? profileToggle : notificationToggle;
-    closedToggle.setAttribute('aria-expanded', 'false');
+  function renderSectorGaps() {
+    const list = document.querySelector('[data-sector-gaps]');
+    const gaps = Analytics.setoresComMaiorDiferenca(3);
+    list.replaceChildren(...(gaps.length
+      ? gaps.map((item) => el('li', {},
+        el('span', { text: item.setor }),
+        el('strong', {}, el('span', { 'aria-hidden': 'true', text: '↗' }), ` ${formatNumber(item.lacunaLideranca, 1)} p.p.`)))
+      : [el('li', {}, el('span', { class: 'muted-text', text: 'Nenhuma diferença identificada (ou amostra pequena).' }))]));
   }
 
-  notificationToggle.addEventListener('click', () => setPopover(notificationsPopover, profilePopover, notificationToggle));
-  profileToggle.addEventListener('click', () => setPopover(profilePopover, notificationsPopover, profileToggle));
-  document.querySelector('[data-mark-notifications-read]').addEventListener('click', () => {
-    read = new Set(notifications.map((item) => item.id));
-    try { Storage.setItem(readKey, [...read]); } catch { /* interface remains usable in private browsing */ }
-    updateNotificationState();
-  });
-  list.addEventListener('click', (event) => {
-    const link = event.target.closest('[data-notification-id]');
-    if (!link) return;
-    read.add(link.dataset.notificationId);
-    try { Storage.setItem(readKey, [...read]); } catch { /* navigation still works without storage */ }
-  });
-  document.addEventListener('click', (event) => {
-    if (!event.target.closest('.popover-wrap')) {
-      notificationsPopover.hidden = true;
-      profilePopover.hidden = true;
-      notificationToggle.setAttribute('aria-expanded', 'false');
-      profileToggle.setAttribute('aria-expanded', 'false');
-    }
-  });
-  document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape') return;
-    notificationsPopover.hidden = true;
-    profilePopover.hidden = true;
-    notificationToggle.setAttribute('aria-expanded', 'false');
-    profileToggle.setAttribute('aria-expanded', 'false');
-  });
+  function initHeatmap() {
+    const sectorSelect = document.getElementById('heatmap-sector');
+    const periodSelect = document.getElementById('heatmap-period');
+    const container = document.getElementById('promotion-heatmap');
+    Dados.setores().forEach((sector) => sectorSelect.add(new Option(sector, sector)));
+    Analytics.opcoesDePeriodo().forEach((option) => periodSelect.add(new Option(option.rotulo, option.valor)));
+    const draw = () => PromotionHeatmap.render(container, Analytics.mapaPromocoes({ periodo: periodSelect.value, setor: sectorSelect.value }), { linkParaPerfil: true });
+    sectorSelect.addEventListener('change', draw);
+    periodSelect.addEventListener('change', draw);
+    draw();
+  }
 
-  updateNotificationState();
-});
+  function renderPlanUsage() {
+    const summary = Analytics.resumo();
+    const levels = Analytics.niveis();
+    const signed = (value) => `${value > 0 ? '+' : value < 0 ? '−' : ''}${formatNumber(Math.abs(value), 1)} p.p.`;
+    document.getElementById('plan-usage-table').replaceChildren(Charts.tabela({
+      descricao: 'Pessoas por cargo do plano, percentual de mulheres, diferença para o percentual de mulheres no quadro e diferença salarial média',
+      colunas: ['Cargo', 'Pessoas', '% de mulheres', 'Diferença vs. quadro', 'Salário médio (M vs. H)'],
+      linhas: levels.map((level) => [
+        level.nome,
+        formatNumber(level.total),
+        level.pctMulheresNoNivel === null ? (level.total ? 'amostra pequena' : '—') : formatPercent(level.pctMulheresNoNivel),
+        level.pctMulheresNoNivel === null || summary.pctMulheres === null ? '—' : signed(level.pctMulheresNoNivel - summary.pctMulheres),
+        level.difSalarioMedio === null ? (level.total ? 'amostra pequena' : '—') : `${level.difSalarioMedio > 0 ? '+' : '−'}${formatPercent(Math.abs(level.difSalarioMedio))}`
+      ])
+    }));
+
+    const list = document.getElementById('plan-bottlenecks');
+    const bottlenecks = Analytics.gargalos().slice(0, 5);
+    list.replaceChildren(...(bottlenecks.length
+      ? bottlenecks.map((item) => el('li', {},
+        el('strong', { text: item.nome }),
+        el('span', { text: `Média de ${Helpers.formatDuration(item.mediaMeses)} no cargo (mínimo ${Helpers.formatDuration(item.minimoMeses)}). ${formatPercent(item.pctElegiveis, 0)} das pessoas já cumpriram o tempo mínimo.` })))
+      : [el('li', {}, el('span', { class: 'muted-text', text: 'Nenhum gargalo identificado.' }))]));
+  }
+
+  renderMetrics();
+  renderFunnel();
+  renderPromotionTime();
+  renderSectorGaps();
+  initHeatmap();
+  renderPlanUsage();
+}
 
 function initializeEmployeeDashboard(session) {
   const profileKey = `talentosPerfil:${session.email}`;
   const goalsKey = `talentosMetas:${session.email}`;
-  const collaboratorsKey = 'talentosColaboradores';
   const profileForm = document.querySelector('[data-employee-profile-form]');
   const goalsList = document.querySelector('[data-employee-goals]');
   if (!profileForm || !goalsList) return;
 
   const savedProfile = Storage.getItem(profileKey) || {};
-  const collaborators = Storage.getItem(collaboratorsKey) || [];
-  const employee = collaborators.find((person) => person.id === 'c-adriel') || {
-    id: 'c-adriel', name: session.name, gender: 'Masculino', sector: 'Vendas', role: 'Analista', tenure: 2
-  };
+  const employee = Dados.colaboradorDaSessao(session);
   profileForm.elements.name.value = savedProfile.name || session.name;
   profileForm.elements.phone.value = savedProfile.phone || '';
   profileForm.elements.bio.value = savedProfile.bio || '';
 
-  const years = Number(employee.tenure) || 0;
-  const months = Number(employee.tenureMonths) || 0;
-  document.querySelector('[data-employee-role]').textContent = employee.role;
-  document.querySelector('[data-employee-sector]').textContent = employee.sector;
-  document.querySelector('[data-employee-tenure]').textContent = [
-    years ? `${years} ${years === 1 ? 'ano' : 'anos'}` : '',
-    months ? `${months} ${months === 1 ? 'mês' : 'meses'}` : ''
-  ].filter(Boolean).join(' e ') || 'Recém-chegado(a)';
-  document.querySelector('[data-employee-stage]').textContent = /gerente|diretor/i.test(employee.role)
-    ? 'Gerência'
-    : /coordena|lider|sênior|senior|especialista/i.test(employee.role) ? 'Liderança' : 'Pleno';
+  if (employee) {
+    const cargo = Plano.cargo(employee.cargoId);
+    const steps = cargo ? Plano.cargosDaTrilha(cargo.trilhaId).filter((item) => item.ativo || item.id === cargo.id) : [];
+    document.querySelector('[data-employee-role]').textContent = employee.role;
+    document.querySelector('[data-employee-sector]').textContent = employee.sector;
+    document.querySelector('[data-employee-tenure]').textContent = Helpers.formatDuration(Dados.mesesDeCasa(employee));
+    document.querySelector('[data-employee-stage]').textContent = cargo
+      ? `Nível ${steps.findIndex((item) => item.id === cargo.id) + 1} de ${steps.length}`
+      : 'Sem cargo no plano';
+  }
 
   function updateEmployeeName(name) {
     document.querySelectorAll('[data-auth-name]').forEach((element) => { element.textContent = name; });
-    const initials = name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase();
-    document.querySelectorAll('[data-auth-initials]').forEach((element) => { element.textContent = initials; });
+    document.querySelectorAll('[data-auth-initials]').forEach((element) => { element.textContent = Helpers.initials(name); });
     document.querySelector('[data-auth-user-menu]')?.setAttribute('aria-label', `Perfil de ${name}`);
-    const nextCollaborators = collaborators.map((person) => person.id === employee.id ? { ...person, name } : person);
-    Storage.setItem(collaboratorsKey, nextCollaborators);
+    if (employee) Dados.atualizarColaborador(employee.id, { name });
   }
 
   profileForm.addEventListener('submit', (event) => {

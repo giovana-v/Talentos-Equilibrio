@@ -126,6 +126,14 @@ body {
   margin-bottom: 26px;
 }
 
+.field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
 .input-wrapper {
   position: relative;
   display: flex;
@@ -301,14 +309,10 @@ body {
     flex-direction: column;
   }
 
-  .login-form-area {
-    order: -1;
-  }
-
   .login-branding {
-    align-items: center;
-    min-height: 430px;
-    padding: 42px 28px 0;
+    align-items: flex-start;
+    min-height: 0;
+    padding: 28px 24px 20px;
   }
 
   .login-card {
@@ -316,55 +320,8 @@ body {
   }
 
   .logo-titulo {
-    gap: 14px;
-    margin-bottom: 14px;
-  }
-
-  .logo-icon {
-    flex-basis: 52px;
-    width: 52px;
-    height: 52px;
-  }
-
-  .branding-header h1 {
-    font-size: 2rem;
-  }
-
-  .branding-header p {
-    font-size: 0.95rem;
-  }
-
-  .illustration-wrapper {
-    right: 0;
-    left: 0;
-    height: 46%;
-  }
-
-  .login-form-area {
-    align-items: flex-start;
-    min-height: auto;
-    padding: 46px 28px 56px;
-  }
-
-  .login-box {
-    max-width: 480px;
-  }
-
-  .login-box > p {
-    margin-bottom: 28px;
-  }
-}
-
-@media (max-width: 380px) {
-  .login-branding {
-    min-height: 390px;
-    padding-right: 20px;
-    padding-left: 20px;
-  }
-
-  .login-form-area {
-    padding-right: 20px;
-    padding-left: 20px;
+    gap: 12px;
+    margin-bottom: 8px;
   }
 
   .logo-icon {
@@ -374,6 +331,91 @@ body {
   }
 
   .branding-header h1 {
-    font-size: 1.75rem;
+    font-size: 1.65rem;
+  }
+
+  .branding-header p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .illustration-wrapper {
+    position: relative;
+    height: auto;
+    margin-top: 12px;
+  }
+
+  .illustration-wrapper img {
+    width: 100%;
+    max-height: 170px;
+  }
+
+  .login-form-area {
+    align-items: flex-start;
+    min-height: auto;
+    padding: 28px 24px 40px;
+  }
+
+  .login-box {
+    max-width: 480px;
+  }
+
+  .login-box > p {
+    margin-bottom: 24px;
+  }
+
+  .input-group {
+    margin-bottom: 18px;
+  }
+
+  .input-wrapper input {
+    min-height: 56px;
+    padding: 14px 16px 14px 52px;
+    font-size: 1rem;
+  }
+
+  .input-icon {
+    left: 18px;
+  }
+
+  .remember-forgot {
+    margin: 20px 0 24px;
+  }
+
+  .remember-forgot label {
+    min-height: 44px;
+    gap: 12px;
+  }
+
+  .remember-forgot input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+  }
+
+  .btn-primary {
+    min-height: 56px;
+  }
+
+  .forgot-link-center {
+    min-height: 44px;
+    margin-top: 16px;
+  }
+
+  .demo-access {
+    margin-top: 14px;
+  }
+
+  .demo-access summary {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 380px) {
+  .login-branding,
+  .login-form-area {
+    padding-right: 20px;
+    padding-left: 20px;
   }
 }

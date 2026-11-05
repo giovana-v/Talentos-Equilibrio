@@ -2,6 +2,240 @@
 .career-chart,
 .horizontal-chart,
 .vertical-chart,
-.funnel-chart {
+.funnel-chart,
+.bars-chart {
   min-width: 0;
+}
+
+/* Barras agrupadas (gênero por nível, taxas por setor) */
+.bars-chart {
+  display: grid;
+  gap: 14px;
+}
+
+.chart-title {
+  color: var(--color-primary-dark);
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.bars-body {
+  display: grid;
+  gap: 14px;
+}
+
+.bars-row {
+  display: grid;
+  grid-template-columns: minmax(78px, 112px) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.bars-row[hidden] {
+  display: none;
+}
+
+.bars-label {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.bars-group {
+  display: grid;
+  gap: 4px;
+}
+
+.bars-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(52px, auto);
+  align-items: center;
+  gap: 8px;
+}
+
+.bars-chart .bar-track {
+  height: 18px;
+}
+
+.bar-women,
+.bar-men {
+  display: block;
+  width: var(--bar-size);
+  height: 100%;
+  border-radius: 0 5px 5px 0;
+}
+
+.bar-women {
+  background: var(--color-primary);
+}
+
+.bar-men {
+  background: var(--color-accent);
+}
+
+.bars-value {
+  color: var(--color-primary-dark);
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bars-value.is-muted {
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.bars-simple .bars-row {
+  grid-template-columns: minmax(70px, 92px) minmax(0, 1fr);
+}
+
+.chart-table summary {
+  display: inline-block;
+  padding: 4px 0;
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chart-table[open] summary {
+  margin-bottom: 8px;
+}
+
+/* Funil dinâmico (etapas das mulheres) */
+.funnel-shape.is-dynamic {
+  width: var(--funnel-width);
+  background: var(--color-primary);
+  opacity: var(--funnel-opacity);
+}
+
+.funnel-levels strong small {
+  color: var(--text-secondary);
+  font-size: inherit;
+  font-weight: 500;
+}
+
+/* Barra de progresso (tempo no cargo, posição na faixa salarial) */
+.progress {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--bg-surface);
+}
+
+.progress i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-primary);
+}
+
+/* Mapa de calor de promoções */
+.heatmap {
+  display: grid;
+  gap: 14px;
+}
+
+.heatmap-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: separate;
+  border-spacing: 3px;
+  font-size: 0.78rem;
+}
+
+.heatmap-table thead th {
+  padding: 4px 2px;
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.heatmap-table tbody th {
+  min-width: 120px;
+  padding-right: 8px;
+  color: var(--color-primary-dark);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.heatmap-table td {
+  padding: 0;
+  text-align: center;
+}
+
+.heat-total {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
+.heat-cell {
+  width: 100%;
+  min-width: 44px;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  font: 700 0.8rem var(--font-family);
+}
+
+.heat-cell:hover {
+  border-color: var(--color-primary);
+}
+
+.heat-cell[aria-pressed="true"] {
+  outline: 3px solid var(--color-cta);
+  outline-offset: 1px;
+}
+
+.heat-0 { background: #f4f4f6; color: #55515a; }
+.heat-1 { background: #f3dadf; color: #330000; }
+.heat-2 { background: #e2a9b2; color: #330000; }
+.heat-3 { background: #a23a5b; color: #ffffff; }
+.heat-4 { background: #7d2443; color: #ffffff; }
+.heat-5 { background: #62162f; color: #ffffff; }
+
+.heatmap-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+}
+
+.heatmap-legend small {
+  flex-basis: 100%;
+  font-size: 0.72rem;
+}
+
+.heat-swatch {
+  display: inline-block;
+  width: 22px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.heatmap-details {
+  padding: 14px 16px;
+  border: 1px dashed var(--color-accent);
+  border-radius: 10px;
+  background: var(--bg-body);
+}
+
+.heatmap-details h4 {
+  margin-bottom: 10px;
+  color: var(--color-primary-dark);
+  font-size: 0.9rem;
+}
+
+.heatmap-hint {
+  color: var(--text-secondary);
+  font-size: 0.84rem;
 }

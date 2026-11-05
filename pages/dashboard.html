@@ -15,43 +15,7 @@
 <body class="dashboard-page">
   <a class="skip-link" href="#main-content">Pular para o conteúdo principal</a>
   <div class="dashboard-shell">
-    <aside class="sidebar" aria-label="Menu principal">
-      <a class="brand" href="dashboard.html" aria-label="Talentos em Equilíbrio, início">
-        <svg class="brand-symbol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="8" r="5.5"></circle>
-          <path d="M12 13.5V23M8 19h8"></path>
-        </svg>
-        <span>Talentos em<br>Equilíbrio</span>
-      </a>
-
-      <nav class="side-nav" aria-label="Navegação principal">
-        <a class="nav-link is-active" href="dashboard.html" aria-current="page">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"></path></svg>
-          <span>Dashboard</span>
-        </a>
-        <a class="nav-link" href="colaboradores.html" data-admin-only>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5a6.5 6.5 0 0 1 13 0V20zM17 5a3.5 3.5 0 0 1 0 6.8M18 14a5.5 5.5 0 0 1 3.5 5.1V20h-3"></path></svg>
-          <span>Colaboradores</span>
-        </a>
-        <a class="nav-link" href="perfil.html">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M8.5 18H12a6 6 0 0 0 6-6V8.5M16.5 18H15a4 4 0 0 1-4-4v-1a4 4 0 0 1 4-4h.5"></path></svg>
-          <span>Jornada de carreira</span>
-        </a>
-        <a class="nav-link" href="relatorios.html" data-admin-only>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V5M4 20h17M8 16v-4M13 16V8M18 16V4"></path></svg>
-          <span>Relatórios</span>
-        </a>
-        <a class="nav-link" href="configuracoes.html" data-admin-only>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="m19.4 15 .1.1 1.4 1.1-1.5 2.6-1.7-.7a8 8 0 0 1-1.7 1l-.3 1.8h-3l-.3-1.8a8 8 0 0 1-1.7-1l-1.7.7-1.5-2.6L7 15a8 8 0 0 1 0-2l-1.5-1.1L7 9.3l1.7.7a8 8 0 0 1 1.7-1l.3-1.8h3l.3 1.8a8 8 0 0 1 1.7 1l1.7-.7 1.5 2.6L19.4 13a8 8 0 0 1 0 2z" transform="translate(-1 -1)"></path></svg>
-          <span>Configurações</span>
-        </a>
-      </nav>
-
-      <a class="sidebar-logout" href="../index.html" data-logout>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"></path></svg>
-        <span>Sair</span>
-      </a>
-    </aside>
+    <aside class="sidebar" aria-label="Menu principal" data-sidebar data-active="dashboard.html"></aside>
 
     <main class="dashboard-main" id="main-content" tabindex="-1">
       <header class="topbar">
@@ -108,10 +72,10 @@
           <section class="panel employee-career-panel" aria-labelledby="employee-career-heading">
             <div class="panel-heading"><div><h2 id="employee-career-heading">Acompanhamento profissional</h2><p class="panel-description">Um resumo da sua trajetória atual.</p></div></div>
             <dl class="career-summary">
-              <div><dt>Cargo atual</dt><dd data-employee-role>Analista</dd></div>
-              <div><dt>Setor</dt><dd data-employee-sector>Vendas</dd></div>
-              <div><dt>Tempo de casa</dt><dd data-employee-tenure>2 anos</dd></div>
-              <div><dt>Etapa atual</dt><dd data-employee-stage>Pleno</dd></div>
+              <div><dt>Cargo atual</dt><dd data-employee-role>—</dd></div>
+              <div><dt>Setor</dt><dd data-employee-sector>—</dd></div>
+              <div><dt>Tempo de casa</dt><dd data-employee-tenure>—</dd></div>
+              <div><dt>Nível na trilha</dt><dd data-employee-stage>—</dd></div>
             </dl>
             <a class="personal-dashboard-link" href="perfil.html">Acessar histórico de carreira <span aria-hidden="true">→</span></a>
           </section>
@@ -145,8 +109,8 @@
           </div>
           <div class="metric-content">
             <h2>Total de colaboradores</h2>
-            <strong class="metric-value" data-dashboard-total>256</strong>
-            <p data-dashboard-gender-counts>112 mulheres (43,8%) · 144 homens</p>
+            <strong class="metric-value" data-metric="total">—</strong>
+            <p data-metric-note="total">Calculando…</p>
           </div>
         </article>
 
@@ -156,8 +120,8 @@
           </div>
           <div class="metric-content">
             <h2>Mulheres em cargos de liderança</h2>
-            <strong class="metric-value">7</strong>
-            <p>(17,5% do total de líderes)</p>
+            <strong class="metric-value" data-metric="lideranca">—</strong>
+            <p data-metric-note="lideranca">Calculando…</p>
           </div>
         </article>
 
@@ -167,8 +131,8 @@
           </div>
           <div class="metric-content">
             <h2>Taxa de promoção (mulheres)</h2>
-            <strong class="metric-value">5,8%</strong>
-            <p class="metric-change is-down"><span aria-hidden="true">↓</span> 2,1% vs. ano anterior</p>
+            <strong class="metric-value" data-metric="promocao">—</strong>
+            <p class="metric-change" data-metric-note="promocao">Calculando…</p>
           </div>
         </article>
 
@@ -178,8 +142,8 @@
           </div>
           <div class="metric-content">
             <h2>Taxa de desistência (mulheres)</h2>
-            <strong class="metric-value">16,2%</strong>
-            <p class="metric-change is-up"><span aria-hidden="true">↑</span> 4,4% vs. ano anterior</p>
+            <strong class="metric-value" data-metric="desistencia">—</strong>
+            <p class="metric-change" data-metric-note="desistencia">Calculando…</p>
           </div>
         </article>
       </section>
@@ -187,40 +151,16 @@
       <section class="dashboard-grid" data-admin-only aria-label="Análises de carreira">
         <article class="panel career-panel">
           <div class="panel-heading">
-            <h2 id="career-chart-title">Funil de carreira — Mulheres x Homens</h2>
+            <div>
+              <h2 id="career-chart-title">Funil de carreira — Mulheres x Homens</h2>
+              <p class="panel-description">Pessoas em cada cargo do plano de carreira atual.</p>
+            </div>
             <div class="chart-legend" aria-label="Legenda do gráfico">
               <span><i class="legend-dot women-dot"></i>Mulheres</span>
               <span><i class="legend-dot men-dot"></i>Homens</span>
             </div>
           </div>
-          <figure class="career-chart" aria-labelledby="career-chart-title" aria-describedby="career-chart-description">
-            <figcaption class="visually-hidden" id="career-chart-description">Contratação: 70 mulheres e 186 homens. Júnior: 51 mulheres e 154 homens. Pleno: 33 mulheres e 108 homens. Sênior: 16 mulheres e 64 homens. Liderança: 7 mulheres e 33 homens.</figcaption>
-            <div class="career-row" style="--bar-total:100%; --women-share:27.3%">
-              <span class="career-stage">Contratação</span>
-              <div class="career-track"><span class="women-bar">70</span><span class="men-bar"></span></div>
-              <span class="career-total">186</span>
-            </div>
-            <div class="career-row" style="--bar-total:80.1%; --women-share:24.9%">
-              <span class="career-stage">Júnior</span>
-              <div class="career-track"><span class="women-bar">51</span><span class="men-bar"></span></div>
-              <span class="career-total">154</span>
-            </div>
-            <div class="career-row" style="--bar-total:55.4%; --women-share:23.4%">
-              <span class="career-stage">Pleno</span>
-              <div class="career-track"><span class="women-bar">33</span><span class="men-bar"></span></div>
-              <span class="career-total">108</span>
-            </div>
-            <div class="career-row" style="--bar-total:31.3%; --women-share:20%">
-              <span class="career-stage">Sênior</span>
-              <div class="career-track"><span class="women-bar">16</span><span class="men-bar"></span></div>
-              <span class="career-total">64</span>
-            </div>
-            <div class="career-row" style="--bar-total:15.6%; --women-share:17.5%">
-              <span class="career-stage">Liderança</span>
-              <div class="career-track"><span class="women-bar">7</span><span class="men-bar"></span></div>
-              <span class="career-total">33</span>
-            </div>
-          </figure>
+          <div id="career-funnel"></div>
         </article>
 
         <div class="insights-column">
@@ -229,28 +169,74 @@
             <div class="promotion-comparison">
               <div class="promotion-stat">
                 <span class="mini-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg></span>
-                <div><span>Mulheres</span><strong>3,2 anos</strong></div>
+                <div><span>Mulheres</span><strong data-promotion-time="F">—</strong></div>
               </div>
               <div class="promotion-stat">
                 <span class="mini-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg></span>
-                <div><span>Homens</span><strong>2,1 anos</strong></div>
+                <div><span>Homens</span><strong data-promotion-time="M">—</strong></div>
               </div>
             </div>
           </article>
 
           <article class="panel sector-panel">
-            <div class="panel-heading"><h2>Setores com maior diferença</h2></div>
-            <ul class="sector-list">
-              <li><span>Tecnologia</span><strong><span aria-hidden="true">↗</span> 22%</strong></li>
-              <li><span>Marketing</span><strong><span aria-hidden="true">↗</span> 18%</strong></li>
-              <li><span>Financeiro</span><strong><span aria-hidden="true">↗</span> 12%</strong></li>
-            </ul>
+            <div class="panel-heading"><div><h2>Setores com maior diferença</h2><p class="panel-description">Mulheres no quadro × na liderança do setor.</p></div></div>
+            <ul class="sector-list" data-sector-gaps></ul>
           </article>
+        </div>
+      </section>
+
+      <section class="panel overview-panel" data-admin-only aria-labelledby="heatmap-title">
+        <div class="panel-heading">
+          <div>
+            <h2 id="heatmap-title">Mapa mensal de promoções</h2>
+            <p class="panel-description">Promoções por mês, por gênero e por tipo do cargo de destino.</p>
+          </div>
+          <div class="filter-bar">
+            <label>Setor<select id="heatmap-sector"><option value="">Todos os setores</option></select></label>
+            <label>Período<select id="heatmap-period"></select></label>
+          </div>
+        </div>
+        <div class="panel-body" id="promotion-heatmap"></div>
+      </section>
+
+      <section class="panel overview-panel" data-admin-only aria-labelledby="plan-usage-title">
+        <div class="panel-heading">
+          <div>
+            <h2 id="plan-usage-title">Como o plano de carreira está sendo usado</h2>
+            <p class="panel-description">Pessoas por cargo, diferença entre gêneros em cada nível e gargalos de progressão.</p>
+          </div>
+          <div class="button-row">
+            <a class="button button-secondary button-small" href="plano-carreira.html">Editar plano de carreira</a>
+            <a class="button button-secondary button-small" href="carreira-geral.html">Ver carreira geral</a>
+          </div>
+        </div>
+        <details class="help-box">
+          <summary>Como o plano de carreira funciona?</summary>
+          <p>O plano é definido pela empresa em <strong>trilhas</strong> (por exemplo, uma por setor), e cada trilha tem <strong>cargos</strong> com faixa salarial, tempo mínimo no cargo, requisitos e os <strong>próximos cargos</strong> possíveis. Quando a ligação entre cargos se divide, a carreira é ramificada (em Y). Cada colaborador ocupa um cargo do plano; ao registrar uma promoção, o cargo, o histórico, o mapa mensal e todos os indicadores se atualizam. Um cargo só fica <em>elegível</em> para promoção depois do tempo mínimo no cargo atual.</p>
+        </details>
+        <div class="usage-grid">
+          <div>
+            <h3 class="section-subtitle">Pessoas por cargo</h3>
+            <div id="plan-usage-table"></div>
+          </div>
+          <div>
+            <h3 class="section-subtitle">Gargalos</h3>
+            <p class="muted-text">Cargos em que a média de permanência já ultrapassa o tempo mínimo definido no plano.</p>
+            <ul class="bottleneck-list" id="plan-bottlenecks"></ul>
+          </div>
         </div>
       </section>
     </main>
   </div>
   <script src="../js/utils/storage.js"></script>
+  <script src="../js/utils/helpers.js"></script>
+  <script src="../js/utils/plano.js"></script>
+  <script src="../js/utils/dados.js"></script>
+  <script src="../js/utils/analytics.js"></script>
+  <script src="../js/components/sidebar.js"></script>
+  <script src="../js/components/navbar.js"></script>
+  <script src="../js/components/charts.js"></script>
+  <script src="../js/components/heatmap.js"></script>
   <script src="../js/pages/dashboard.js"></script>
 </body>
 </html>

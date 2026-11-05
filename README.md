@@ -1,12 +1,11 @@
 # Talentos em Equilíbrio
 
-Sistema web para RH acompanhar a jornada de carreira das mulheres na empresa,
+Sistema web para o RH acompanhar a jornada de carreira das mulheres na empresa,
 identificar barreiras e apoiar decisões por um ambiente mais justo e inclusivo.
 
-Projeto construído apenas com **HTML, CSS e JavaScript** (sem back-end). Os
-dados demonstrativos são definidos nos scripts e salvos no armazenamento local
-do navegador (`localStorage` e `sessionStorage`). Os arquivos em `data/` estão
-vazios e não são carregados pela aplicação.
+Projeto construído apenas com **HTML, CSS e JavaScript** (sem back-end, sem
+bibliotecas externas). Os dados são de demonstração e ficam no navegador
+(`localStorage` e `sessionStorage`).
 
 > **Demonstração:** as credenciais mostradas na tela de login são públicas e
 > estão embutidas no JavaScript. Não use dados pessoais ou senhas reais neste
@@ -14,16 +13,110 @@ vazios e não são carregados pela aplicação.
 
 ---
 
+## Como usar
+
+1. Abra o projeto em um editor (ex.: VS Code).
+2. **Abra o `index.html` direto no navegador.** Nada é carregado com `fetch`, então
+   **não é necessário servidor local**.
+3. Entre com uma das contas de demonstração:
+   - **RH:** `nicole@talentos.com` / `Admin@123`
+   - **Colaborador:** `adriel@talentos.com` / `Usuario@123`
+
+Limpar os dados do site no navegador reinicia tudo (os dados de demonstração são
+gerados de novo na próxima abertura).
+
+---
+
 ## Telas do sistema
 
-| Tela                | Arquivo                      | Descrição                                            |
-|---------------------|------------------------------|------------------------------------------------------|
-| Login               | `index.html`                 | Acesso ao sistema (porta de entrada).                |
-| Dashboard RH        | `pages/dashboard.html`       | Visão geral: métricas, funil de carreira, promoções. |
-| Colaboradores       | `pages/colaboradores.html`   | Lista com busca e filtros por setor/cargo/gênero.    |
-| Perfil / Jornada    | `pages/perfil.html`          | Perfil da colaboradora + histórico e linha do tempo. |
-| Relatórios          | `pages/relatorios.html`      | Comparativos por setor e principais descobertas.     |
-| Configurações       | `pages/configuracoes.html`   | Ajustes do sistema.                                  |
+| Tela                | Arquivo                       | Acesso      | Descrição |
+|---------------------|-------------------------------|-------------|-----------|
+| Login               | `index.html`                  | Todos       | Acesso ao sistema. |
+| Dashboard           | `pages/dashboard.html`        | RH / Colab. | RH: indicadores, funil por cargo, **mapa mensal de promoções** e painel de uso do plano. Colaborador: perfil, metas e notícias. |
+| Colaboradores       | `pages/colaboradores.html`    | RH          | Lista com busca/filtros e cadastro (cargo vem do plano; salário opcional). |
+| Perfil / Jornada    | `pages/perfil.html`           | RH / Colab. | Contrato, remuneração, benefícios, organograma, projetos, histórico de cargos e jornada no plano. O RH também registra promoções e edita os dados. |
+| Carreira geral      | `pages/carreira-geral.html`   | RH          | Comparação **mulheres × homens** por nível: distribuição, tempo de empresa, salário (média e mediana) e tempo até a promoção. |
+| Plano de carreira   | `pages/plano-carreira.html`   | RH          | Editor (CRUD) de trilhas e cargos, exportar/importar JSON, restaurar modelo padrão e simulação para candidato externo. |
+| Cargo               | `pages/cargo.html?id=...`     | RH / Colab. | Descrição, requisitos, faixa, benefícios e trilha. O RH vê também quem ocupa o cargo (com % por gênero). O colaborador só abre cargos da própria trilha e não vê dados de outras pessoas. |
+| Relatórios          | `pages/relatorios.html`       | RH          | Liderança e desistência por setor, funil das mulheres, descobertas e mapa de promoções, com filtros de setor e período. |
+| Configurações       | `pages/configuracoes.html`    | RH          | Preferências, segurança, notificações e **benefícios da empresa**. |
+
+Telas restritas redirecionam o colaborador para o Dashboard com o aviso
+"Esta área está disponível apenas para administradores." (`js/utils/auth.js`).
+
+---
+
+## Modelo de dados
+
+Tudo é salvo em `localStorage` por `js/utils/storage.js`. Há **uma única fonte de
+dados**: os indicadores nunca são digitados no HTML, sempre calculados a partir
+de colaboradores, plano e promoções.
+
+### Plano de carreira (chave `planoCarreira`) — `js/utils/plano.js`
+
+```
+{ trilhas: [Trilha], cargos: [Cargo] }
+
+Trilha: { id, nome, setor ("Todos" ou um setor), descricao, ativa }
+
+Cargo:  { id, trilhaId, nome, ordem, tipo ("operacional" | "lideranca"),
+          faixaSalarialMin, faixaSalarialMax, tempoMinimoNoCargoMeses,
+          requisitos: { competencias[], formacao, experiencia },
+          responsabilidades[], beneficios[],
+          proximosCargosIds[],   // mais de um = carreira ramificada (em Y)
+          ativo }
+```
+
+Regras: nome obrigatório, faixa mínima ≤ máxima, sem ciclos entre próximos
+cargos. Excluir um cargo com colaboradores (ou histórico de promoções) é
+**bloqueado** até migrá-los para outro cargo. O modelo padrão é Estagiário →
+Júnior → Pleno → Sênior → (Especialista | Coordenação) → Gerência → Diretoria.
+
+### Colaboradores (`talentosColaboradores`) — `js/utils/dados.js`
+
+```
+{ id, name, gender, sector,
+  cargoId,            // referência ao plano
+  role,               // nome do cargo (mantido em sincronia com o plano)
+  funcao,             // título livre do cargo antigo (opcional)
+  hireDate, cargoDesde,
+  salary, salaryHistory: [{ data, valor, motivo }],
+  contractType, contractStart, contractEnd,
+  beneficiosIds,      // null = todos os benefícios da empresa
+  managerId,          // gestor direto (base do organograma)
+  projects: [{ id, nome, papel, inicio, fim, status, resultado }] }
+```
+
+### Outros registros
+
+| Chave | Conteúdo |
+|-------|----------|
+| `talentosPromocoes` | `{ id, colaboradorId, cargoOrigemId, cargoDestinoId, data, setor }` |
+| `talentosDesligamentos` | `{ id, gender, sector, cargoId, data }` (base da taxa de desistência) |
+| `talentosBeneficios` | `{ id, nome, descricao, icone }` (editável em Configurações) |
+| `talentosDadosVersao` | Versão do esquema, usada pela migração |
+
+### Migração
+
+Na primeira carga com dados do formato antigo, `Dados.init()` completa cada
+colaborador: mapeia o cargo antigo (texto livre) para um cargo do plano padrão,
+guarda o texto original em `funcao`, calcula `hireDate`, salário, contrato,
+gestor e projetos, e gera o histórico de promoções. A migração é idempotente.
+
+### Cálculos e regra de amostra
+
+`js/utils/analytics.js` concentra todos os cálculos. **Grupos com menos de 3
+pessoas exibem "amostra pequena"** em vez de média ou percentual. Taxas:
+
+- **Promoção** = mulheres promovidas na janela ÷ mulheres no quadro.
+- **Desistência** = desligamentos ÷ (quadro + desligamentos).
+- **Tempo até a promoção** = tempo entre a admissão (ou a promoção anterior) e cada promoção.
+- Diferenças percentuais são sempre **mulheres em relação a homens**.
+
+> Os dados fictícios incluem **disparidades propositais** (mulheres levam mais
+> tempo para ser promovidas, têm salário um pouco menor dentro da faixa e menos
+> presença na liderança) para que os indicadores de equidade tenham o que
+> mostrar. Os parâmetros ficam em `Dados.DEMO` (`js/utils/dados.js`).
 
 ---
 
@@ -31,102 +124,59 @@ vazios e não são carregados pela aplicação.
 
 ```
 TCC-Nick/
+├── index.html                  # Login
+├── pages/                      # Telas autenticadas (ver tabela acima)
+│   ├── dashboard.html  colaboradores.html  perfil.html
+│   ├── carreira-geral.html  plano-carreira.html  cargo.html
+│   └── relatorios.html  configuracoes.html
 │
-├── index.html                  # Tela de Login (ponto de entrada)
+├── css/
+│   ├── variables.css           # Paleta vinho/bordô com dourado, espaçamentos
+│   ├── base.css                # Reset e importação dos componentes
+│   ├── layout.css              # Estrutura (sidebar + conteúdo)
+│   ├── components/             # sidebar, navbar, cards, table, charts, forms, buttons
+│   └── pages/                  # Um arquivo por tela
 │
-├── pages/                      # Demais telas do sistema
-│   ├── dashboard.html          # Dashboard RH
-│   ├── colaboradores.html      # Lista de colaboradores
-│   ├── perfil.html             # Perfil + Jornada de Carreira
-│   ├── relatorios.html         # Relatórios e Análises
-│   └── configuracoes.html      # Configurações
+├── js/
+│   ├── utils/
+│   │   ├── storage.js          # Acesso ao localStorage
+│   │   ├── auth.js             # Sessão, perfis RH/colaborador e proteção de páginas
+│   │   ├── helpers.js          # DOM (el), formatação, datas, diálogos, arquivos
+│   │   ├── plano.js            # Plano de carreira: modelo, CRUD, validações, import/export
+│   │   ├── dados.js            # Colaboradores, promoções, benefícios, migração, dados de demonstração
+│   │   └── analytics.js        # Todos os indicadores calculados
+│   ├── components/
+│   │   ├── sidebar.js          # Menu lateral (renderizado a partir de data-sidebar)
+│   │   ├── navbar.js           # Notificações e menu do usuário
+│   │   ├── charts.js           # Barras, funis e tabelas alternativas acessíveis
+│   │   ├── heatmap.js          # Mapa mensal de promoções
+│   │   └── jornada.js          # Visão somente leitura do plano (perfil e simulação)
+│   └── pages/                  # Um script por tela
 │
-├── css/                        # Todos os estilos
-│   ├── variables.css           # Cores (tons de roxo), fontes, espaçamentos
-│   ├── base.css                # Reset e estilos globais (body, tipografia)
-│   ├── layout.css              # Estrutura geral (sidebar + área de conteúdo)
-│   │
-│   ├── components/             # Estilos de elementos reutilizáveis
-│   │   ├── sidebar.css         # Menu lateral
-│   │   ├── navbar.css          # Barra superior (notificações, usuário)
-│   │   ├── cards.css           # Cartões de métricas
-│   │   ├── table.css           # Tabela de colaboradores
-│   │   ├── charts.css          # Gráficos (funil, barras)
-│   │   ├── forms.css           # Campos de formulário e filtros
-│   │   └── buttons.css         # Botões
-│   │
-│   └── pages/                  # Estilos específicos de cada tela
-│       ├── login.css
-│       ├── dashboard.css
-│       ├── colaboradores.css
-│       ├── perfil.css
-│       ├── relatorios.css
-│       └── configuracoes.css
-│
-├── js/                         # Toda a lógica (JavaScript)
-│   ├── main.js                 # Inicialização geral do site
-│   │
-│   ├── components/             # Comportamento de elementos reutilizáveis
-│   │   ├── sidebar.js          # Navegação lateral
-│   │   ├── navbar.js           # Menu do usuário, notificações
-│   │   └── charts.js           # Desenho/atualização dos gráficos
-│   │
-│   ├── pages/                  # Lógica específica de cada tela
-│   │   ├── login.js            # Validação do formulário de login
-│   │   ├── dashboard.js        # Carrega e exibe métricas
-│   │   ├── colaboradores.js    # Busca, filtros e listagem
-│   │   ├── perfil.js           # Monta histórico e linha do tempo
-│   │   └── relatorios.js       # Monta gráficos e descobertas
-│   │
-│   └── utils/                  # Funções auxiliares
-│       ├── helpers.js          # Formatação, cálculos, utilidades
-│       └── storage.js          # Acesso ao localStorage (ex.: "lembrar-me")
-│
-├── data/                       # Reservado para dados de exemplo (não utilizado)
-│   ├── colaboradores.json
-│   └── metricas.json
-│
-├── assets/                     # Arquivos estáticos
-│   ├── images/                 # Logo, ilustrações, fotos/avatares
-│   ├── icons/                  # Ícones (SVG)
-│   └── fonts/                  # Fontes (caso não use CDN)
-│
-└── README.md                   # Este arquivo
+├── assets/images/              # Ilustração do login
+├── data/                       # Reservado (vazio, não utilizado)
+└── README.md
 ```
 
----
-
-## Lógica da organização
-
-- **`index.html` na raiz** é o login, por convenção de ponto de entrada; as
-  outras telas ficam em `pages/`.
-- **CSS e JS divididos em `components/` e `pages/`**: o que se repete em várias
-  telas (sidebar, cards, tabela, gráficos) fica em `components/`; o que é
-  exclusivo de uma tela fica em `pages/`. Isso evita repetição e facilita a
-  manutenção.
-- **Dados de demonstração**: os registros de colaboradores são montados em
-  `js/pages/colaboradores.js`; preferências, metas e alterações de perfil ficam
-  no armazenamento local do navegador. Limpar os dados do site reinicia essas
-  informações locais.
-- **`utils/`** guarda funções que servem a várias telas (formatação, cálculos,
-  acesso ao armazenamento local).
-- **`assets/`** separa imagens, ícones e fontes do código.
+Ordem de carregamento nas páginas internas (scripts no fim do `<body>`):
+`storage → helpers → plano → dados → analytics → componentes → script da página`.
+`auth.js` fica no `<head>`; ele protege a página e chama `Sidebar.render()`.
 
 ---
 
-## Como usar
+## Acessibilidade
 
-1. Abra o projeto em um editor (ex.: VS Code).
-2. Rode com um servidor local (ex.: extensão **Live Server**).
-   > Um servidor local é necessário porque o `fetch` dos arquivos JSON não
-   > funciona abrindo o HTML direto pelo navegador (`file://`).
-3. Comece pela tela de login (`index.html`).
+Link "pular para o conteúdo", rótulos ARIA, mensagens em regiões `aria-live`,
+navegação por teclado nos botões de reordenar, nas abas e no mapa de promoções
+(setas, Home e End), diálogos nativos `<dialog>`, e cada gráfico tem descrição
+textual e uma tabela alternativa ("Ver dados em tabela"). O mapa de promoções é
+uma tabela real: a cor reforça o número, que aparece sempre na célula.
 
 ---
 
-## Convenções sugeridas
+## Convenções
 
 - Nomes de arquivos e pastas em **minúsculas**, sem acentos e sem espaços.
-- Uma folha de estilo e um script por tela, sempre com o mesmo nome da página.
-- Cores e fontes centralizadas em `css/variables.css` (não repetir valores fixos
-  espalhados pelo código).
+- Uma folha de estilo e um script por tela, com o mesmo nome da página.
+- Cores e fontes centralizadas em `css/variables.css`.
+- Nenhum número de indicador é escrito à mão: use `Analytics`.

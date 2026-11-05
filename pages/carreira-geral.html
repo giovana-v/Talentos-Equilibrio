@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compare a carreira de mulheres e homens por nível: distribuição, tempo de empresa, salário e tempo até a promoção.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#330000">
+  <title>Carreira geral | Talentos em Equilíbrio</title>
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/pages/dashboard.css">
+  <link rel="stylesheet" href="../css/pages/carreira-geral.css">
+  <script src="../js/utils/auth.js"></script>
+</head>
+<body class="dashboard-page">
+  <a class="skip-link" href="#main-content">Pular para o conteúdo principal</a>
+  <div class="dashboard-shell">
+    <aside class="sidebar" aria-label="Menu principal" data-sidebar data-active="carreira-geral.html"></aside>
+
+    <main class="dashboard-main overview-main" id="main-content" tabindex="-1">
+      <header class="topbar">
+        <div class="page-heading">
+          <p class="eyebrow">Dados e tendências</p>
+          <h1>Carreira geral: mulheres × homens</h1>
+          <p class="page-description">Compare lado a lado a distribuição por nível, o tempo de empresa, os salários e o tempo até a promoção.</p>
+        </div>
+      </header>
+      <p class="auth-notice" data-auth-notice role="status" hidden></p>
+
+      <form class="panel filter-bar overview-filters" id="overview-filters" aria-label="Filtros da visão geral">
+        <label>Setor<select id="filter-setor"><option value="">Todos os setores</option></select></label>
+        <label>Nível (cargo do plano)<select id="filter-cargo"><option value="">Todos os níveis</option></select></label>
+        <label>Tipo de cargo
+          <select id="filter-tipo">
+            <option value="">Todos os tipos</option>
+            <option value="lideranca">Liderança</option>
+            <option value="operacional">Operacional</option>
+          </select>
+        </label>
+        <button class="button button-link" type="button" id="clear-filters">Limpar filtros</button>
+        <p class="status-text" id="overview-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="overview-note">Valores calculados a partir dos colaboradores cadastrados. Grupos com menos de 3 pessoas aparecem como “amostra pequena”, e a diferença percentual é sempre mulheres em relação a homens.</p>
+
+      <section class="metric-grid" id="overview-summary" aria-label="Resumo do filtro atual"></section>
+
+      <section class="panel overview-section" aria-labelledby="dist-title">
+        <div class="panel-heading">
+          <div>
+            <h2 id="dist-title">Distribuição de cargos por nível</h2>
+            <p class="panel-description">Quantas mulheres e quantos homens ocupam cada nível do plano de carreira.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="chart-distribution"></div>
+          <h3 class="section-subtitle">Tabela: quantidade e percentual por gênero em cada nível</h3>
+          <div class="table-scroll" id="table-distribution"></div>
+        </div>
+      </section>
+
+      <section class="panel overview-section" aria-labelledby="tenure-title">
+        <div class="panel-heading">
+          <div>
+            <h2 id="tenure-title">Tempo médio de empresa por nível</h2>
+            <p class="panel-description">Média de anos desde a admissão, por nível e gênero.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="chart-tenure"></div>
+        </div>
+      </section>
+
+      <section class="panel overview-section" aria-labelledby="salary-title">
+        <div class="panel-heading">
+          <div>
+            <h2 id="salary-title">Salário por nível e gênero</h2>
+            <p class="panel-description">Média e mediana salarial, com a diferença percentual entre mulheres e homens.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="chart-pair">
+            <div id="chart-salary-mean"></div>
+            <div id="chart-salary-median"></div>
+          </div>
+          <h3 class="section-subtitle">Tabela: salários e diferença percentual</h3>
+          <div class="table-scroll" id="table-salary"></div>
+        </div>
+      </section>
+
+      <section class="panel overview-section" aria-labelledby="promo-title">
+        <div class="panel-heading">
+          <div>
+            <h2 id="promo-title">Tempo médio até a promoção</h2>
+            <p class="panel-description">Tempo entre a admissão (ou a promoção anterior) e cada promoção registrada.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="promotion-comparison overview-promotion" id="promotion-summary"></div>
+          <div id="chart-promotion"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/utils/storage.js"></script>
+  <script src="../js/utils/helpers.js"></script>
+  <script src="../js/utils/plano.js"></script>
+  <script src="../js/utils/dados.js"></script>
+  <script src="../js/utils/analytics.js"></script>
+  <script src="../js/components/sidebar.js"></script>
+  <script src="../js/components/charts.js"></script>
+  <script src="../js/pages/carreira-geral.js"></script>
+</body>
+</html>
